@@ -1,0 +1,360 @@
+==========================================================================
+ GUION PERSONAL DE DEMOSTRACIÓN DEL SOFTWARE — JHON MARCO ARACAYO MAMANI
+==========================================================================
+
+Proyecto: Riesgo agroclimático por heladas en la región Puno
+Duración recomendada de la demostración: 4 minutos
+Dirección del software: http://localhost:8501
+
+
+1. IDEA PRINCIPAL QUE DEBES TRANSMITIR
+--------------------------------------
+
+El software convierte diez años de datos climáticos históricos en indicadores,
+gráficos, mapas y análisis interactivos para comparar cuándo y dónde se
+concentra la exposición a heladas en Puno.
+
+Frase corta para memorizar:
+
+"Nuestro dashboard transforma datos históricos de 2015 a 2024 en evidencia
+interactiva para comparar el riesgo de heladas entre las trece capitales
+provinciales de Puno. Apoya la priorización, pero no reemplaza las alertas
+oficiales ni pronostica el clima futuro".
+
+
+2. PREPARACIÓN ANTES DE EXPONER
+-------------------------------
+
+Haz esto entre 10 y 15 minutos antes:
+
+1. Dentro de la carpeta del proyecto ejecuta:
+
+   .\.venv\Scripts\python.exe -m streamlit run app.py
+
+   Si no existe el entorno .venv, en esta computadora también funciona:
+
+   python -m streamlit run app.py
+
+2. Abre http://localhost:8501 en Chrome o Edge.
+3. Usa Ctrl + 0 para restaurar el zoom. Si no entran los ocho KPI, usa
+   Ctrl + - una o dos veces hasta llegar a 80 % o 90 %.
+4. Entra una vez a "Analisis multidimensional" y espera a que terminen de
+   calcularse los modelos. La primera carga puede tardar de 20 a 30 segundos.
+5. Regresa a "app" y pulsa "Restablecer todos los filtros".
+6. Comprueba esta configuración inicial:
+
+   - Atajo temporal: Todo el periodo.
+   - Provincias: todas.
+   - Temporadas: todas.
+   - Umbral: Helada meteorológica (Tmín ≤ 0 °C).
+   - Analizar sólo días con helada: desactivado.
+
+7. Cierra pestañas, notificaciones y programas que puedan distraer.
+8. Mantén abierta la diapositiva o captura de respaldo por si falla Internet,
+   aunque el dashboard puede trabajar localmente después de instalarse.
+
+
+3. GUION LITERAL Y ACCIONES — RECORRIDO DE 4 MINUTOS
+----------------------------------------------------
+
+0:00–0:45 | VISTA GENERAL
+
+ACCIÓN:
+Deja abierta la página "app". Señala el título y después los KPI. No leas las
+ocho tarjetas; muestra sólo tres o cuatro.
+
+TEXTO PARA DECIR:
+
+"Ahora mostraré el producto final. Es un dashboard interactivo desarrollado en
+Streamlit para estudiar la exposición histórica a heladas en Puno. La fuente
+principal es ERA5-Land y el periodo analizado va del primero de enero de 2015 al
+31 de diciembre de 2024. Tenemos 47 mil 489 observaciones provincia-día, que
+corresponden a 3 mil 653 días por trece capitales provinciales.
+
+En la vista inicial observamos 7 mil 620 eventos provincia-día con helada
+meteorológica, equivalentes al 16 por ciento. También vemos la temperatura
+mínima media, el extremo absoluto, la provincia más expuesta y un índice
+compuesto de riesgo. Todas estas tarjetas cambian con los filtros".
+
+DATOS QUE PUEDES SEÑALAR SI TE LOS PIDEN:
+
+- Registros analizados: 47.489.
+- Heladas meteorológicas: 7.620 observaciones provincia-día, 16,0 %.
+- Temperatura mínima media: 3,8 °C.
+- Mínima absoluta: -9,1 °C, Carabaya, 23/07/2018.
+- Provincia más expuesta con 0 °C: Carabaya, aproximadamente 30,8 %.
+
+IMPORTANTE:
+No digas "7.620 días distintos en Puno". Son 7.620 observaciones
+provincia-día; un mismo día puede aparecer en varias provincias.
+
+
+0:45–1:30 | DEMOSTRAR QUE LOS FILTROS SÍ RECALCULAN
+
+ACCIÓN:
+En la barra lateral busca "Umbral de helada" y cambia:
+
+   Helada meteorológica (Tmín ≤ 0 °C)
+   a
+   Helada agronómica (Tmín ≤ 3 °C)
+
+Espera uno o dos segundos y señala cómo cambian los KPI y los gráficos.
+
+TEXTO PARA DECIR:
+
+"La interactividad no consiste solamente en ocultar gráficos. Los filtros
+recalculan el mismo subconjunto en todas las páginas. Aquí cambio del umbral
+meteorológico de cero grados al umbral agronómico de tres grados. El resultado
+pasa de 7 mil 620 casos, o 16 por ciento, a 18 mil 877, o 39,8 por ciento.
+Esto equivale a una incidencia potencial aproximadamente 2,48 veces mayor.
+
+El umbral de tres grados es preventivo para cultivos sensibles. Indica
+exposición agronómica potencial; no significa que ya exista daño agrícola
+comprobado".
+
+QUÉ DEMUESTRA ESTE CLIC:
+
+- Que el software es interactivo.
+- Que el umbral depende de la pregunta que se quiere responder.
+- Que KPI, rankings, interpretaciones y gráficos usan la misma selección.
+
+
+1:30–2:25 | MOSTRAR DÓNDE SE CONCENTRA EL RIESGO
+
+ACCIÓN:
+Sin restablecer el umbral, entra a "Analisis geografico". Esto demuestra que el
+filtro de 3 °C se conserva entre páginas.
+
+En los controles del mapa elige:
+
+- Color del mapa: Tasa de helada (%).
+- Tamaño del punto: Índice medio de riesgo.
+
+Pasa el cursor sobre Carabaya y luego sobre Yunguyo.
+
+TEXTO PARA DECIR:
+
+"El filtro continúa activo al cambiar de página. En este mapa, el color
+representa la tasa de helada y el tamaño representa el índice medio de riesgo.
+La comparación muestra que el fenómeno no es uniforme en toda la región.
+Bajo el umbral agronómico, Carabaya alcanza aproximadamente 85,3 por ciento,
+mientras Yunguyo se mantiene alrededor de 0,9 por ciento.
+
+Cada punto representa la celda climática cercana a una capital provincial. Por
+eso este mapa sirve para comparar puntos equivalentes, pero no representa todos
+los distritos, parcelas o microclimas de una provincia".
+
+NO HAGAS ESTO:
+
+- No selecciones una sola provincia antes de abrir el mapa: aparecería un solo
+  punto y se perdería la comparación territorial.
+- No digas que los puntos son polígonos o promedios de toda la provincia.
+- No atribuyas la diferencia únicamente a la altitud o al lago; di que es un
+  patrón consistente con varios factores y que no demuestra causalidad.
+
+
+2:25–3:20 | MOSTRAR EL ANÁLISIS AVANZADO
+
+ACCIÓN:
+Entra a "Analisis multidimensional". Muestra primero las pestañas disponibles:
+
+- Correlaciones.
+- Componentes principales.
+- Agrupamiento.
+- Anomalías.
+- Modelo predictivo.
+
+Abre "Componentes principales" y señala la varianza explicada y las cargas.
+Si ya está precargado y queda tiempo, abre "Modelo predictivo" y señala la
+importancia de variables. No recorras todos los gráficos.
+
+TEXTO PARA DECIR:
+
+"Además de la descripción visual, el dashboard incluye técnicas
+multivariantes. PCA resume variables estandarizadas en factores; K-Means busca
+perfiles semejantes; Isolation Forest marca combinaciones poco frecuentes para
+revisión; y Random Forest ordena los factores asociados con una partición
+cronológica.
+
+Aunque la interfaz llama a esta pestaña modelo predictivo, en este trabajo se
+usa como modelo explicativo sobre datos históricos. No es un pronóstico para
+mañana ni una alerta operativa. Para evitar una respuesta artificialmente
+perfecta se excluyeron la temperatura mínima, el déficit térmico y el índice de
+riesgo, porque están directamente ligados a la definición del evento".
+
+SI MENCIONAS RESULTADOS DEL INFORME:
+
+- Los dos primeros componentes del PCA explican aproximadamente 68,7 %.
+- Cinco componentes alcanzan aproximadamente 90 %.
+- K-Means obtuvo una silueta cercana a 0,306: la estructura es débil y los
+  grupos son exploratorios, no zonas climáticas oficiales.
+- Isolation Forest marca 1 % de la muestra para revisión; una anomalía no es
+  necesariamente un error.
+- El Random Forest del análisis completo obtuvo AUC aproximada de 0,990, pero
+  sigue siendo explicativo y no un sistema desplegado de pronóstico.
+
+REGLA SEGURA:
+Si el valor mostrado en vivo cambia por los filtros, lee el valor de la
+pantalla. No fuerces la cifra global del informe sobre una selección distinta.
+
+
+3:20–4:00 | CONCLUSIONES Y CIERRE
+
+ACCIÓN:
+Entra a "Conclusiones". Señala las respuestas P1–P6, las recomendaciones y la
+sección de limitaciones. No leas todo el texto.
+
+TEXTO PARA DECIR:
+
+"Finalmente, la página de conclusiones responde las seis preguntas de análisis
+con la selección activa. La herramienta permite priorizar provincias y meses,
+comparar umbrales y descargar el subconjunto en CSV o Excel.
+
+Su resultado principal es que la exposición a heladas es territorial y
+estacionalmente desigual; por ello, una única medida regional sería
+insuficiente. El software apoya la planificación y la exploración histórica,
+pero no reemplaza las estaciones de SENAMHI, las alertas oficiales ni la
+verificación en campo. Muchas gracias; quedo atento a sus preguntas".
+
+
+4. QUÉ HACE REALMENTE EL SOFTWARE
+---------------------------------
+
+- Analiza datos históricos diarios de 2015–2024.
+- Trabaja con 47.489 observaciones de trece capitales provinciales.
+- Usa ERA5-Land/ERA5 como fuente principal y MERRA-2 como validación externa.
+- Filtra por fecha, provincia, piso ecológico, altitud, temporada, temperatura,
+  umbral de helada, variable analítica y controles de calidad.
+- Mantiene los filtros cuando el usuario cambia de página.
+- Recalcula KPI, rankings, series, mapas e interpretaciones automáticas.
+- Compara helada meteorológica de 0 °C y exposición agronómica de 3 °C.
+- Presenta distribuciones, pruebas estadísticas y tendencias históricas.
+- Incluye correlaciones, PCA, K-Means, Ward, Isolation Forest y Random Forest.
+- Permite descargar la selección como CSV, Excel y resumen Markdown.
+- Documenta fuentes, limpieza, fórmulas, diccionario y limitaciones.
+
+
+5. QUÉ NO HACE — NO PROMETAS ESTO AL JURADO
+-------------------------------------------
+
+- NO recibe datos meteorológicos en vivo. Los datos terminan el 31/12/2024.
+- NO pronostica si mañana habrá una helada.
+- NO envía SMS, correos, notificaciones ni alarmas automáticas.
+- NO reemplaza los avisos oficiales de SENAMHI.
+- NO representa cada distrito, comunidad, parcela o microclima.
+- NO mide daños reales en cultivos, ganado, rendimiento o pérdidas económicas.
+- NO demuestra que una variable cause otra; muestra asociaciones y patrones.
+- NO demuestra cambio climático con sólo diez años de datos.
+- NO convierte los grupos de K-Means en fronteras climáticas oficiales.
+- NO considera el índice 0–100 como una escala oficial o calibrada con pérdidas.
+- NO interpreta automáticamente toda anomalía como error.
+- NO tiene usuarios, inicio de sesión, edición de datos ni base transaccional.
+
+Si aparece la frase "calculado en tiempo real", explica que significa
+"recalculado inmediatamente al mover filtros", no datos climáticos en vivo.
+
+
+6. COSAS QUE NO DEBES MOSTRAR DURANTE LA DEMOSTRACIÓN
+-----------------------------------------------------
+
+- No abras el código, la consola o las carpetas del proyecto.
+- No ejecutes los scripts 01, 02, 03 o 04.
+- No abras el notebook ni intentes volver a entrenar todo manualmente.
+- No muestres la instalación de dependencias.
+- No recorras los 36 gráficos: muestra sólo los que sostienen tu explicación.
+- No descargues archivos durante la demo; sólo menciona que se puede hacer.
+- No actives "Analizar sólo días con helada" antes de comparar tasas, porque
+  modifica el subconjunto y puede confundir el denominador.
+- No uses filtros muy estrechos: pueden dejar pocas observaciones o un mapa con
+  un solo punto.
+
+
+7. RESPUESTAS RÁPIDAS SI EL JURADO PREGUNTA
+-------------------------------------------
+
+¿EL SOFTWARE TRABAJA EN TIEMPO REAL?
+"No recibe clima en vivo. Recalcula en el momento los datos históricos que el
+usuario selecciona. El periodo disponible termina en diciembre de 2024".
+
+¿PUEDE PREDECIR LA HELADA DE MAÑANA?
+"No en su versión actual. El Random Forest es explicativo y fue evaluado sobre
+datos históricos. Para pronóstico operativo necesitaríamos integrar pronósticos
+meteorológicos, validación continua y un mecanismo oficial de alerta".
+
+¿POR QUÉ USAN 0 °C Y 3 °C?
+"Cero grados identifica la helada meteorológica. Tres grados es un umbral
+preventivo de exposición para cultivos sensibles; no confirma daño real".
+
+¿POR QUÉ ERA5-LAND?
+"Porque su resolución aproximada de nueve kilómetros permite diferenciar mejor
+los puntos provinciales. MERRA-2 es más gruesa y se usa sólo como contraste".
+
+¿EL MAPA REPRESENTA TODA LA PROVINCIA?
+"No. Cada punto corresponde a la celda cercana a la capital provincial. Es una
+comparación reproducible, pero no captura todos los microclimas".
+
+¿EL ÍNDICE DE RIESGO ES OFICIAL?
+"No. Es un índice compuesto del proyecto con pesos expertos y sirve para
+comparación interna. Todavía debe calibrarse con pérdidas observadas en campo".
+
+¿POR QUÉ EL AUC DEL MODELO ES ALTO?
+"Se usó partición cronológica y se excluyeron las variables que definen
+directamente el evento para reducir fuga. Aun así, lo tratamos como asociación
+histórica, no como desempeño garantizado para un pronóstico futuro".
+
+¿PUEDEN AFIRMAR QUE LAS HELADAS ESTÁN DISMINUYENDO?
+"No. La dirección estimada fue descendente, pero las pruebas no alcanzaron
+significancia estadística y diez años no constituyen una normal climática".
+
+¿UNA ANOMALÍA ES UN DATO MALO?
+"No necesariamente. Significa que la combinación de variables es poco frecuente
+y debe revisarse; por eso no se elimina automáticamente".
+
+
+8. PLAN DE EMERGENCIA — SI SÓLO TIENES 90 SEGUNDOS
+--------------------------------------------------
+
+1. En "app" muestra 47.489 registros y 7.620 heladas meteorológicas.
+2. Cambia de 0 °C a 3 °C y muestra el cambio a 18.877 casos.
+3. Entra al mapa y explica que el riesgo no es uniforme.
+4. Cierra diciendo:
+
+   "El dashboard permite explorar y exportar evidencia histórica para apoyar
+   decisiones territoriales. No usa datos en vivo, no pronostica mañana y no
+   sustituye una alerta oficial".
+
+
+9. SI EL SOFTWARE SE DEMORA O FALLA
+-----------------------------------
+
+- Si "Analisis multidimensional" está calculando, no esperes frente al jurado.
+  Regresa a la vista general y continúa con el mapa o las capturas.
+- Si el navegador se cierra, vuelve a abrir http://localhost:8501.
+- Si el servidor se detuvo, ejecuta:
+
+  python -m streamlit run app.py
+
+- Si el puerto 8501 está ocupado, probablemente el software ya está abierto.
+  Primero intenta entrar a http://localhost:8501.
+- Como respaldo usa las capturas de assets/capturas o la diapositiva 8.
+
+
+10. COORDINACIÓN CON EL EQUIPO
+------------------------------
+
+El guion general anterior asignaba la demostración de la diapositiva 8 a Angie
+y a Jhon las diapositivas 11–14. Si ahora tú, Jhon, mostrarás el software,
+acuerden antes de empezar que Angie no repetirá la misma demostración.
+
+Transición sugerida de Angie hacia ti:
+
+"Jhon mostrará ahora cómo estas decisiones analíticas se integran en el
+software y luego presentará sus alcances y limitaciones".
+
+==========================================================================
+ FRASE FINAL PARA MEMORIZAR
+==========================================================================
+
+"El valor del dashboard no es adivinar el clima, sino convertir diez años de
+datos trazables en comparaciones claras para decidir dónde y cuándo conviene
+priorizar la gestión del riesgo".
