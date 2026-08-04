@@ -1,0 +1,156 @@
+======================================================================
+ CÓMO EJECUTAR EL SOFTWARE - DASHBOARD DE HELADAS EN PUNO
+======================================================================
+
+IMPORTANTE:
+Para mostrar solamente el software NO se deben ejecutar los notebooks,
+los scripts de descarga de datos ni los archivos LaTeX. Los datos necesarios
+ya vienen incluidos en el repositorio.
+
+
+1. PROGRAMAS NECESARIOS
+-----------------------
+
+- Windows 10 u 11.
+- Python 3.10, 3.11, 3.12 o 3.13.
+  Descarga: https://www.python.org/downloads/
+  Durante la instalación activar la opción "Add Python to PATH".
+- Git.
+  Descarga: https://git-scm.com/download/win
+- Conexión a Internet solamente para descargar el proyecto e instalar
+  las dependencias la primera vez.
+
+
+2. DESCARGAR EL PROYECTO
+------------------------
+
+Abrir PowerShell y ejecutar:
+
+git clone https://github.com/tamoil-0/VA_final.git
+cd VA_final
+
+Alternativa sin Git:
+
+1. Abrir https://github.com/tamoil-0/VA_final
+2. Presionar Code > Download ZIP.
+3. Descomprimir el ZIP.
+4. Abrir PowerShell dentro de la carpeta descomprimida.
+
+
+3. CREAR EL ENTORNO E INSTALAR DEPENDENCIAS
+-------------------------------------------
+
+Desde PowerShell, dentro de la carpeta VA_final, ejecutar UNA POR UNA:
+
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+La primera instalación puede tardar entre 5 y 15 minutos.
+
+Si el comando "py" no existe, usar:
+
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+
+4. LEVANTAR SOLAMENTE EL SOFTWARE
+---------------------------------
+
+Ejecutar:
+
+.\.venv\Scripts\python.exe -m streamlit run app.py
+
+El navegador debe abrir automáticamente esta dirección:
+
+http://localhost:8501
+
+Si no abre solo, copiar esa dirección y pegarla en Chrome, Edge o Firefox.
+
+
+5. QUÉ DEBE MOSTRAR EL SOFTWARE
+--------------------------------
+
+Al abrir debe aparecer:
+
+- Título: "Riesgo agroclimático por heladas en la región Puno".
+- Barra lateral con filtros de fecha, provincia, piso ecológico, temporada,
+  altitud, temperatura y umbral de helada.
+- Ocho indicadores KPI con 47 489 registros en la selección inicial.
+- Menú con las siguientes vistas:
+  1. Vista general (aparece como "app").
+  2. Análisis descriptivo.
+  3. Análisis multidimensional.
+  4. Análisis geográfico.
+  5. Conclusiones.
+  6. Metodología y datos.
+
+Antes de exponer comprobar que todas las páginas abren y que al cambiar una
+provincia o el umbral de helada los indicadores y gráficos se actualizan.
+
+
+6. PARA LA DEMOSTRACIÓN EN CLASE
+--------------------------------
+
+Mostrar solamente estas acciones:
+
+1. Abrir la Vista general.
+2. Cambiar "Umbral de helada" de meteorológica (0 °C) a agronómica (3 °C).
+3. Mostrar que los KPI cambian.
+4. Elegir una provincia en la barra lateral.
+5. Entrar a Análisis geográfico.
+6. Entrar a Análisis multidimensional y mostrar las pestañas de PCA,
+   agrupamiento y modelo predictivo.
+
+No ejecutar durante la exposición:
+
+- scripts/01_descargar_datos.py
+- scripts/02_procesar_datos.py
+- scripts/03_generar_resultados.py
+- scripts/04_generar_capturas.py
+- notebooks/procesamiento.ipynb
+- pdflatex
+
+Esos archivos son para reproducibilidad, no para levantar el dashboard.
+
+
+7. DETENER EL SOFTWARE
+----------------------
+
+Volver a PowerShell y presionar:
+
+Ctrl + C
+
+
+8. SOLUCIÓN RÁPIDA DE PROBLEMAS
+----------------------------------
+
+PROBLEMA: "py" o "python" no se reconoce.
+SOLUCIÓN: Instalar Python y activar "Add Python to PATH".
+
+PROBLEMA: "No module named streamlit".
+SOLUCIÓN: Ejecutar nuevamente:
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+PROBLEMA: El puerto 8501 está ocupado.
+SOLUCIÓN: Ejecutar en otro puerto:
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.port 8502
+Luego abrir http://localhost:8502
+
+PROBLEMA: No encuentra data/datos_limpios.csv.
+SOLUCIÓN: Confirmar que PowerShell está ubicado dentro de la carpeta
+VA_final y que el repositorio se descargó completo.
+
+PROBLEMA: La página multidimensional demora unos segundos.
+SOLUCIÓN: Esperar a que termine el mensaje "Calculando modelos
+reproducibles". Es normal la primera vez.
+
+
+COMANDO PRINCIPAL PARA LAS SIGUIENTES VECES
+-------------------------------------------
+
+cd VA_final
+.\.venv\Scripts\python.exe -m streamlit run app.py
+
+======================================================================
