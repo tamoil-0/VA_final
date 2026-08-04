@@ -1,0 +1,17 @@
+\begin{enumerate}[leftmargin=*,itemsep=0.35em]
+\item Inicio del pipeline: 47,489 filas \ensuremath{\times} 32 columnas de entrada.
+\item Normalización del esquema: 19 variables nativas del servicio se renombraron a nombres semánticos en español y se unificó la nomenclatura geográfica (latitud, longitud, altitud).
+\item La fecha llegaba como cadena de texto ISO; se convirtió a tipo temporal para habilitar filtros por rango, agregaciones cronológicas y cálculo de tendencias.
+\item Homogeneización de unidades en 4 variables: velocidad\_\allowbreak{}viento km/h \ensuremath{\rightarrow} m/s (\ensuremath{\times}0.277778); racha\_\allowbreak{}viento\_\allowbreak{}maxima km/h \ensuremath{\rightarrow} m/s (\ensuremath{\times}0.277778); presion\_\allowbreak{}superficie hPa \ensuremath{\rightarrow} kPa (\ensuremath{\times}0.1); horas\_\allowbreak{}sol s \ensuremath{\rightarrow} h (\ensuremath{\times}0.000277778).
+\item No se hallaron valores centinela (-999.0); el servicio codifica la ausencia como nulo JSON, ya interpretado como ausente en la carga.
+\item Validación de rangos físicos sobre 19 variables: 0 observaciones fuera de los límites admisibles fueron anuladas.
+\item Verificación de coherencia térmica (mínima \ensuremath{\leq} media \ensuremath{\leq} máxima): 0 filas incoherentes; en ellas la media se recalculó como punto medio de los extremos observados.
+\item Control de calidad de la precipitación: 1 acumulados diarios superiores a 100 mm se marcaron como sospechosos y se conservaron sin modificar. El episodio dominante es 2015-08-10, con 1 provincia(s) afectada(s) el mismo día; el dato permanece disponible y trazable para el análisis de anomalías.
+\item Control de unicidad sobre la clave natural (provincia, fecha): 0 registros duplicados eliminados.
+\item Reindexado al calendario diario completo (3,653 días \ensuremath{\times} 13 provincias = 47,489 filas esperadas): 0 días ausentes materializados.
+\item Imputación por provincia (interpolación lineal bidireccional en variables continuas; relleno con cero en las de precipitación): 0 valores completados; 0 ausentes residuales.
+\item Integración de la fuente secundaria (MERRA-2 / NASA POWER) por la clave (provincia, fecha): 47,489 filas emparejadas. Correlación de la temperatura mínima entre fuentes r = 0.611; sesgo medio +1.29 \textdegree{}C; concordancia en la clasificación binaria de helada 83.1 \%.
+\item Transformación: se generaron 23 variables derivadas (descomposición temporal, caracterización territorial por piso ecológico, indicadores de helada e índice compuesto de riesgo agroclimático).
+\item Optimización de tipos (categóricos y punto flotante de 32 bits): el dataset analítico ocupa 6.8 MB en memoria.
+\item Pipeline finalizado: 47,489 filas \ensuremath{\times} 52 columnas en el dataset analítico.
+\end{enumerate}

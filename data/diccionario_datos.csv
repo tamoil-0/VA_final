@@ -1,0 +1,53 @@
+variable,etiqueta,unidad,tipo,procedencia,descripcion,tipo_pandas,completitud_%,valores_unicos,minimo,maximo,media,mediana,desv_estandar
+fecha,Fecha,—,temporal,original,Día de observación (resolución diaria).,datetime64[ns],100.0,3653,—,—,—,—,—
+anio,Año,—,temporal,derivada,Año calendario de la observación.,int16,100.0,10,2015.0,2024.0,2019.5,2020.0,2.873
+mes,Mes,—,temporal,derivada,Número de mes (1–12).,int8,100.0,12,1.0,12.0,6.522,7.0,3.449
+mes_nombre,Nombre del mes,—,categorica,derivada,"Mes en texto, ordenado cronológicamente.",category,100.0,12,—,—,—,—,—
+mes_abrev,Mes abrev,—,categorica,derivada,Variable auxiliar del modelo de datos.,category,100.0,12,—,—,—,—,—
+trimestre,Trimestre,—,categorica,derivada,Trimestre calendario (T1–T4).,category,100.0,4,—,—,—,—,—
+dia_anio,Día del año,—,temporal,derivada,Día juliano (1–366).,int16,100.0,366,1.0,366.0,183.15,183.0,105.454
+semana_anio,Semana anio,—,numerica,derivada,Variable auxiliar del modelo de datos.,int8,100.0,53,1.0,53.0,26.609,27.0,15.065
+anio_mes,Anio mes,—,categorica,derivada,Variable auxiliar del modelo de datos.,category,100.0,120,—,—,—,—,—
+temporada,Temporada,—,categorica,derivada,"Lluviosa, Transición o Seca.",category,100.0,3,—,—,—,—,—
+campania_agricola,Campaña agrícola,—,categorica,derivada,Campaña MIDAGRI de agosto a julio.,category,100.0,11,—,—,—,—,—
+provincia,Provincia,—,categorica,original,Provincia de la región Puno.,category,100.0,13,—,—,—,—,—
+capital,Capital provincial,—,categorica,original,Capital que define el punto de consulta.,category,100.0,13,—,—,—,—,—
+latitud,Latitud,°,geografica,original,Latitud decimal del punto de malla.,float32,100.0,9,-16.2,-14.1,-15.292,-15.4,0.663
+longitud,Longitud,°,geografica,original,Longitud decimal del punto de malla.,float32,100.0,11,-70.6,-69.1,-69.892,-69.9,0.429
+altitud,Altitud,msnm,numerica,original,Elevación del punto reportada por la API.,float32,100.0,13,2294.0,4321.0,3783.307,3861.0,449.783
+cuenca,Vertiente hidrográfica,—,categorica,derivada,Titicaca (endorreica) o Amazonas.,category,100.0,2,—,—,—,—,—
+zona_agroecologica,Zona agroecológica,—,categorica,derivada,Caracterización agroecológica provincial.,category,100.0,4,—,—,—,—,—
+piso_ecologico,Piso ecológico,—,categorica,derivada,Piso altitudinal según Pulgar Vidal (1981).,category,100.0,3,—,—,—,—,—
+temperatura_minima,Temperatura mínima,°C,numerica,original,Temperatura mínima diaria del aire a 2 m; variable central del estudio.,float32,100.0,221,-9.1,14.5,3.793,4.0,3.488
+temperatura_media,Temperatura media,°C,numerica,original,"Temperatura del aire a 2 m, promedio diario.",float32,100.0,184,-1.7,17.3,8.994,9.0,2.344
+temperatura_maxima,Temperatura máxima,°C,numerica,original,Temperatura máxima diaria del aire a 2 m.,float32,100.0,213,2.5,27.3,14.426,14.3,2.563
+oscilacion_termica,Oscilación térmica,°C,numerica,derivada,Diferencia entre temperatura máxima y mínima.,float32,100.0,220,0.9,23.8,10.633,10.0,3.832
+temperatura_suelo,Temperatura del suelo,°C,numerica,original,Temperatura media del suelo entre 0 y 7 cm de profundidad.,float32,100.0,218,2.1,25.3,13.007,13.4,2.842
+punto_rocio,Punto de rocío,°C,numerica,original,Temperatura de rocío media a 2 m.,float32,100.0,398,-27.4,15.7,1.672,2.7,5.613
+humedad_relativa,Humedad relativa,%,numerica,original,Humedad relativa media diaria a 2 m.,int64,100.0,94,7.0,100.0,65.832,69.0,16.935
+deficit_presion_vapor,Déficit de presión de vapor,kPa,numerica,derivada,VPD calculado con la ecuación de Tetens.,float32,100.0,7838,0.005,1.369,0.424,0.379,0.219
+deficit_presion_vapor_maximo,Déficit de presión de vapor máximo,kPa,numerica,original,Valor máximo diario del déficit de presión de vapor.,float32,100.0,251,0.02,2.62,0.948,0.87,0.441
+precipitacion,Precipitación,mm,numerica,original,Precipitación total diaria (lluvia y equivalente en agua de nieve).,float32,100.0,437,0.0,103.9,3.621,1.3,5.333
+lluvia,Lluvia,mm,numerica,original,Fracción líquida de la precipitación diaria.,float32,100.0,411,0.0,95.8,3.43,1.3,5.011
+nevada,Nevada,cm,numerica,original,Espesor de nieve acumulada en el día.,float32,100.0,208,0.0,35.56,0.135,0.0,0.949
+horas_precipitacion,Horas con precipitación,h,numerica,original,Número de horas del día con precipitación registrada.,float32,100.0,25,0.0,24.0,7.204,5.0,7.318
+humedad_suelo,Humedad del suelo,m³/m³,numerica,original,Contenido volumétrico de agua del suelo entre 0 y 7 cm.,float32,100.0,408,0.025,0.432,0.249,0.281,0.14
+evapotranspiracion,Evapotranspiración de referencia,mm,numerica,original,ET₀ diaria calculada con el método FAO-56 Penman-Monteith.,float32,100.0,611,0.62,7.25,3.822,3.75,0.881
+radiacion_solar,Radiación solar,MJ/m²,numerica,original,Irradiancia global horizontal acumulada en el día.,float32,100.0,2628,3.28,35.15,22.757,22.48,4.498
+horas_sol,Horas de sol,h,numerica,original,Duración de la insolación directa.,float32,100.0,42250,0.0,12.959,10.747,11.0,1.716
+nubosidad,Nubosidad,%,numerica,original,Cobertura nubosa media diaria; determinante de la helada de radiación.,int64,100.0,101,0.0,100.0,64.08,74.0,32.395
+velocidad_viento,Velocidad del viento,m/s,numerica,original,Velocidad media del viento a 10 m.,float32,100.0,165,0.472,7.056,1.892,1.833,0.608
+racha_viento_maxima,Racha máxima de viento,m/s,numerica,original,Velocidad máxima del viento a 10 m.,float32,100.0,304,0.917,11.083,3.537,3.361,1.164
+presion_superficie,Presión superficial,kPa,numerica,original,Presión atmosférica media en superficie.,float32,100.0,431,61.1,78.56,65.704,65.05,3.7
+helada,Helada meteorológica,—,booleana,derivada,Verdadero si la temperatura mínima ≤ 0 °C.,bool,100.0,2,—,—,—,—,—
+helada_agronomica,Helada agronómica,—,booleana,derivada,Verdadero si la temperatura mínima ≤ 3 °C.,bool,100.0,2,—,—,—,—,—
+intensidad_helada,Intensidad de helada,—,categorica,derivada,Clasificación ordinal de severidad del evento.,category,100.0,5,—,—,—,—,—
+deficit_termico,Déficit térmico,°C,numerica,derivada,Grados por debajo del umbral agronómico (0 si no aplica).,float32,100.0,106,0.0,12.1,1.057,0.0,1.758
+indice_riesgo_helada,Índice de riesgo de helada,0–100,numerica,derivada,Índice compuesto de riesgo agroclimático diario.,float32,100.0,6528,8.22,90.48,31.711,26.44,16.56
+nivel_riesgo,Nivel de riesgo,—,categorica,derivada,Clasificación ordinal del índice de riesgo en cinco niveles.,category,100.0,5,—,—,—,—,—
+dia_lluvia,Día con lluvia,—,booleana,derivada,Verdadero si la precipitación ≥ 1 mm.,bool,100.0,2,—,—,—,—,—
+dia_nevada,Dia nevada,—,booleana,derivada,Variable auxiliar del modelo de datos.,bool,100.0,2,—,—,—,—,—
+precipitacion_sospechosa,Precipitación implausible,—,booleana,derivada,"Marca de control de calidad: acumulado diario > 100 mm, atribuible al reanálisis.",bool,100.0,2,—,—,—,—,—
+temperatura_minima_merra2,Temperatura mínima (MERRA-2),°C,numerica,original,"Temperatura mínima de la fuente secundaria, para validación cruzada.",float32,100.0,1616,-10.38,10.82,2.504,2.75,3.205
+helada_merra2,Helada según MERRA-2,—,booleana,derivada,Ocurrencia de helada según la fuente secundaria independiente.,bool,100.0,2,—,—,—,—,—
+fuente,Fuente,—,categorica,derivada,Variable auxiliar del modelo de datos.,category,100.0,1,—,—,—,—,—

@@ -1,0 +1,1145 @@
+/* ==========================================================================
+   Dashboard de riesgo agroclimático por heladas — Región Puno
+   Hoja de estilo principal
+   --------------------------------------------------------------------------
+   Sistema de diseño de superficie: pastel, minimalista y con mucho espacio
+   en blanco. Los valores cromáticos replican los tokens declarados en
+   `config/theme.py`; esa duplicación es intencional y está acotada a las
+   propiedades personalizadas de :root, de modo que existe un único bloque
+   que sincronizar si la identidad visual cambia.
+
+   Convención de nombres: prefijo `pn-` (Puno) en todas las clases propias,
+   para no colisionar nunca con las clases internas de Streamlit.
+   ========================================================================== */
+
+:root {
+  /* Superficies */
+  --pn-page: #f7f8fa;
+  --pn-surface: #ffffff;
+  --pn-surface-raised: #fbfcfd;
+  --pn-surface-sunken: #f1f3f7;
+
+  /* Bordes */
+  --pn-border: #e4e8ef;
+  --pn-border-strong: #d5dbe5;
+  --pn-divider: #e6e9ef;
+
+  /* Tinta de texto — contrastes sobre blanco: 17,7 / 7,6 / 4,8 / 2,5 */
+  --pn-ink: #111827;
+  --pn-ink-secondary: #5a6373;
+  --pn-ink-muted: #6b7280;
+  --pn-ink-faint: #aeb7c4;
+
+  /* Marca: naranja pastel (principal) */
+  --pn-brand-50: #feece4;
+  --pn-brand-100: #fbc8b1;
+  --pn-brand-200: #f8a37b;
+  --pn-brand-300: #db8963;
+  --pn-brand-400: #bb7350;
+  --pn-brand-500: #9a5e41;
+
+  /* Acento: azul pastel (secundario) */
+  --pn-accent-50: #e7f1fe;
+  --pn-accent-100: #bad8fb;
+  --pn-accent-200: #8cbff9;
+  --pn-accent-300: #6ba5e5;
+  --pn-accent-400: #578bc5;
+  --pn-accent-500: #4772a2;
+
+  /* Estado — semántica reservada, siempre acompañada de icono y etiqueta */
+  --pn-good: #0ca30c;
+  --pn-good-tint: #e8f6e8;
+  --pn-warning: #fab219;
+  --pn-warning-tint: #fef4e0;
+  --pn-serious: #ec835a;
+  --pn-serious-tint: #fdede6;
+  --pn-critical: #d03b3b;
+  --pn-critical-tint: #fbe9e9;
+
+  /* Radios */
+  --pn-radius-sm: 8px;
+  --pn-radius-md: 12px;
+  --pn-radius-lg: 16px;
+  --pn-radius-xl: 22px;
+  --pn-radius-pill: 999px;
+
+  /* Sombras: elevación por capas, muy suaves */
+  --pn-shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.04);
+  --pn-shadow-sm: 0 1px 3px rgba(17, 24, 39, 0.05), 0 1px 2px rgba(17, 24, 39, 0.03);
+  --pn-shadow-md: 0 4px 12px rgba(17, 24, 39, 0.06), 0 1px 3px rgba(17, 24, 39, 0.04);
+  --pn-shadow-lg: 0 12px 28px rgba(17, 24, 39, 0.08), 0 2px 6px rgba(17, 24, 39, 0.04);
+
+  /* Ritmo vertical */
+  --pn-space-1: 4px;
+  --pn-space-2: 8px;
+  --pn-space-3: 12px;
+  --pn-space-4: 16px;
+  --pn-space-5: 24px;
+  --pn-space-6: 32px;
+  --pn-space-7: 48px;
+
+  /* Tipografía */
+  --pn-font: Inter, "Segoe UI Variable", "Segoe UI", system-ui, -apple-system,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Transiciones: curva de salida suave, duración corta */
+  --pn-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --pn-duration: 180ms;
+}
+
+/* --------------------------------------------------------------------------
+   1. Base
+   -------------------------------------------------------------------------- */
+
+html,
+body,
+[class*="css"] {
+  font-family: var(--pn-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.stApp {
+  background: var(--pn-page);
+}
+
+/* El contenedor principal se centra y respira: el espacio en blanco es un
+   elemento de diseño, no un sobrante. */
+.block-container {
+  padding-top: var(--pn-space-5) !important;
+  padding-bottom: var(--pn-space-7) !important;
+  max-width: 1500px;
+}
+
+/* Se oculta el cromo por defecto de Streamlit, que delata el prototipo. */
+#MainMenu,
+footer,
+header[data-testid="stHeader"] {
+  visibility: hidden;
+  height: 0;
+}
+
+[data-testid="stToolbar"] {
+  right: var(--pn-space-3);
+}
+
+/* --------------------------------------------------------------------------
+   2. Tipografía
+   -------------------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--pn-font);
+  color: var(--pn-ink);
+  letter-spacing: -0.018em;
+  font-weight: 640;
+}
+
+h1 {
+  font-size: 1.85rem;
+  line-height: 1.2;
+  margin-bottom: var(--pn-space-2);
+}
+
+h2 {
+  font-size: 1.32rem;
+  line-height: 1.3;
+  margin-top: var(--pn-space-6);
+  margin-bottom: var(--pn-space-3);
+}
+
+h3 {
+  font-size: 1.06rem;
+  line-height: 1.35;
+  margin-top: var(--pn-space-5);
+}
+
+p,
+li {
+  color: var(--pn-ink-secondary);
+  line-height: 1.62;
+  font-size: 0.945rem;
+}
+
+strong {
+  color: var(--pn-ink);
+  font-weight: 620;
+}
+
+a {
+  color: var(--pn-accent-500);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--pn-duration) var(--pn-ease);
+}
+
+a:hover {
+  border-bottom-color: var(--pn-accent-300);
+}
+
+code {
+  font-family: "JetBrains Mono", "Cascadia Code", "SF Mono", Consolas, monospace;
+  font-size: 0.855em;
+  background: var(--pn-surface-sunken);
+  color: var(--pn-brand-500);
+  padding: 2px 6px;
+  border-radius: var(--pn-radius-sm);
+  border: 1px solid var(--pn-border);
+}
+
+/* --------------------------------------------------------------------------
+   3. Encabezado institucional
+   -------------------------------------------------------------------------- */
+
+.pn-header {
+  background: linear-gradient(135deg, #ffffff 0%, var(--pn-brand-50) 58%, var(--pn-accent-50) 100%);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-xl);
+  padding: var(--pn-space-5) var(--pn-space-6);
+  margin-bottom: var(--pn-space-5);
+  box-shadow: var(--pn-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Filete de marca en el borde superior: firma visual discreta. */
+.pn-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pn-brand-200), var(--pn-accent-200));
+}
+
+.pn-header__top {
+  display: flex;
+  align-items: center;
+  gap: var(--pn-space-4);
+  flex-wrap: wrap;
+}
+
+.pn-header__logos {
+  display: flex;
+  align-items: center;
+  gap: var(--pn-space-3);
+  flex-shrink: 0;
+}
+
+.pn-header__logos img {
+  height: 62px;
+  width: auto;
+  object-fit: contain;
+}
+
+.pn-header__institution {
+  flex: 1 1 320px;
+  min-width: 240px;
+}
+
+.pn-header__university {
+  font-size: 0.775rem;
+  font-weight: 700;
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  color: var(--pn-accent-500);
+  margin: 0;
+}
+
+.pn-header__unit {
+  font-size: 0.775rem;
+  color: var(--pn-ink-muted);
+  margin: 2px 0 0;
+  line-height: 1.45;
+}
+
+.pn-header__title {
+  font-size: 1.72rem;
+  font-weight: 680;
+  color: var(--pn-ink);
+  letter-spacing: -0.022em;
+  margin: var(--pn-space-4) 0 var(--pn-space-1);
+  line-height: 1.18;
+}
+
+.pn-header__subtitle {
+  font-size: 0.98rem;
+  color: var(--pn-ink-secondary);
+  margin: 0 0 var(--pn-space-4);
+  max-width: 74ch;
+  line-height: 1.55;
+}
+
+.pn-header__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pn-space-2);
+}
+
+.pn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-pill);
+  padding: 5px 12px;
+  font-size: 0.775rem;
+  color: var(--pn-ink-secondary);
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+
+.pn-chip__label {
+  color: var(--pn-ink-faint);
+  font-weight: 500;
+}
+
+.pn-chip__value {
+  color: var(--pn-ink);
+  font-weight: 600;
+}
+
+.pn-chip--accent {
+  background: var(--pn-accent-50);
+  border-color: var(--pn-accent-100);
+}
+
+.pn-chip--brand {
+  background: var(--pn-brand-50);
+  border-color: var(--pn-brand-100);
+}
+
+/* --------------------------------------------------------------------------
+   4. Tarjetas de indicador
+   -------------------------------------------------------------------------- */
+
+.pn-kpi {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-lg);
+  padding: var(--pn-space-4) var(--pn-space-4) var(--pn-space-3);
+  box-shadow: var(--pn-shadow-xs);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform var(--pn-duration) var(--pn-ease),
+    box-shadow var(--pn-duration) var(--pn-ease), border-color var(--pn-duration) var(--pn-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Microinteracción: la tarjeta se eleva ligeramente al pasar el cursor. */
+.pn-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pn-shadow-md);
+  border-color: var(--pn-border-strong);
+}
+
+.pn-kpi__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pn-space-2);
+}
+
+.pn-kpi__label {
+  font-size: 0.755rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  color: var(--pn-ink-muted);
+  line-height: 1.3;
+}
+
+.pn-kpi__icon {
+  font-size: 1.02rem;
+  opacity: 0.72;
+  flex-shrink: 0;
+}
+
+.pn-kpi__value {
+  font-size: 1.86rem;
+  font-weight: 660;
+  color: var(--pn-ink);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  /* Cifras proporcionales: es un número aislado, no una columna alineada. */
+  font-variant-numeric: proportional-nums;
+}
+
+.pn-kpi__value--text {
+  font-size: 1.24rem;
+  line-height: 1.28;
+}
+
+.pn-kpi__caption {
+  font-size: 0.775rem;
+  color: var(--pn-ink-muted);
+  line-height: 1.42;
+  margin-top: auto;
+}
+
+.pn-kpi__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.775rem;
+  font-weight: 620;
+  border-radius: var(--pn-radius-pill);
+  padding: 3px 9px;
+  width: fit-content;
+}
+
+/* El color de la variación depende de si es favorable, no de su signo:
+   en este dominio «más heladas» sube y es adverso. */
+.pn-kpi__delta--favourable {
+  background: var(--pn-good-tint);
+  color: #0a7d0a;
+}
+
+.pn-kpi__delta--adverse {
+  background: var(--pn-critical-tint);
+  color: #a82f2f;
+}
+
+.pn-kpi__delta--neutral {
+  background: var(--pn-surface-sunken);
+  color: var(--pn-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   5. Tarjetas de sección y bloques de interpretación
+   -------------------------------------------------------------------------- */
+
+.pn-section {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-lg);
+  padding: var(--pn-space-5);
+  box-shadow: var(--pn-shadow-xs);
+  margin-bottom: var(--pn-space-4);
+}
+
+.pn-section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--pn-brand-400);
+  background: var(--pn-brand-50);
+  border-radius: var(--pn-radius-pill);
+  padding: 4px 11px;
+  margin-bottom: var(--pn-space-3);
+}
+
+.pn-section__title {
+  font-size: 1.14rem;
+  font-weight: 650;
+  color: var(--pn-ink);
+  margin: 0 0 6px;
+  letter-spacing: -0.016em;
+}
+
+.pn-section__question {
+  font-size: 0.9rem;
+  color: var(--pn-ink-secondary);
+  font-style: italic;
+  margin: 0 0 var(--pn-space-2);
+  padding-left: var(--pn-space-3);
+  border-left: 2px solid var(--pn-accent-100);
+}
+
+.pn-section__description {
+  font-size: 0.9rem;
+  color: var(--pn-ink-muted);
+  margin: 0;
+  max-width: 92ch;
+  line-height: 1.6;
+}
+
+/* Bloque de interpretación: los cinco puntos que exige la consigna. */
+.pn-interpretation {
+  background: var(--pn-surface-raised);
+  border: 1px solid var(--pn-border);
+  border-left: 3px solid var(--pn-accent-200);
+  border-radius: var(--pn-radius-md);
+  padding: var(--pn-space-4);
+  margin-top: var(--pn-space-3);
+}
+
+.pn-interpretation__grid {
+  display: grid;
+  gap: var(--pn-space-3);
+}
+
+.pn-interpretation__item {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: var(--pn-space-3);
+  align-items: start;
+}
+
+.pn-interpretation__term {
+  font-size: 0.735rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  color: var(--pn-accent-500);
+  padding-top: 2px;
+}
+
+.pn-interpretation__text {
+  font-size: 0.885rem;
+  color: var(--pn-ink-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .pn-interpretation__item {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Tarjetas de hallazgo
+   -------------------------------------------------------------------------- */
+
+.pn-insight {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-md);
+  padding: var(--pn-space-4);
+  margin-bottom: var(--pn-space-3);
+  box-shadow: var(--pn-shadow-xs);
+  border-left-width: 3px;
+  border-left-style: solid;
+  transition: box-shadow var(--pn-duration) var(--pn-ease);
+}
+
+.pn-insight:hover {
+  box-shadow: var(--pn-shadow-sm);
+}
+
+.pn-insight--info {
+  border-left-color: var(--pn-accent-200);
+}
+.pn-insight--good {
+  border-left-color: var(--pn-good);
+}
+.pn-insight--warning {
+  border-left-color: var(--pn-warning);
+}
+.pn-insight--serious {
+  border-left-color: var(--pn-serious);
+}
+.pn-insight--critical {
+  border-left-color: var(--pn-critical);
+}
+
+.pn-insight__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pn-space-2);
+  margin-bottom: 6px;
+}
+
+.pn-insight__icon {
+  font-size: 1.05rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.pn-insight__title {
+  font-size: 0.955rem;
+  font-weight: 640;
+  color: var(--pn-ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pn-insight__body {
+  font-size: 0.885rem;
+  color: var(--pn-ink-secondary);
+  line-height: 1.62;
+  margin: 0;
+}
+
+.pn-insight__recommendation {
+  display: flex;
+  gap: var(--pn-space-2);
+  margin-top: var(--pn-space-3);
+  padding-top: var(--pn-space-3);
+  border-top: 1px dashed var(--pn-border);
+  font-size: 0.855rem;
+  color: var(--pn-ink-secondary);
+  line-height: 1.55;
+}
+
+.pn-insight__recommendation-label {
+  font-weight: 700;
+  color: var(--pn-brand-400);
+  white-space: nowrap;
+  font-size: 0.735rem;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+
+/* Insignia de estado: color + icono + etiqueta. Nunca sólo color. */
+.pn-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--pn-radius-pill);
+  padding: 3px 10px;
+  font-size: 0.735rem;
+  font-weight: 640;
+  border: 1px solid transparent;
+}
+
+.pn-badge--good {
+  background: var(--pn-good-tint);
+  color: #0a7d0a;
+  border-color: #bde5bd;
+}
+.pn-badge--warning {
+  background: var(--pn-warning-tint);
+  color: #8a5f00;
+  border-color: #f6dfa8;
+}
+.pn-badge--serious {
+  background: var(--pn-serious-tint);
+  color: #a3512a;
+  border-color: #f5cdba;
+}
+.pn-badge--critical {
+  background: var(--pn-critical-tint);
+  color: #a82f2f;
+  border-color: #f0c2c2;
+}
+.pn-badge--info {
+  background: var(--pn-accent-50);
+  color: var(--pn-accent-500);
+  border-color: var(--pn-accent-100);
+}
+
+/* --------------------------------------------------------------------------
+   7. Barra lateral
+   -------------------------------------------------------------------------- */
+
+section[data-testid="stSidebar"] {
+  background: var(--pn-surface);
+  border-right: 1px solid var(--pn-border);
+}
+
+section[data-testid="stSidebar"] > div {
+  padding-top: var(--pn-space-4);
+}
+
+.pn-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--pn-space-3);
+  padding: var(--pn-space-3);
+  background: linear-gradient(135deg, var(--pn-brand-50), var(--pn-accent-50));
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-md);
+  margin-bottom: var(--pn-space-4);
+}
+
+.pn-sidebar-brand img {
+  height: 40px;
+  width: auto;
+}
+
+.pn-sidebar-brand__text {
+  line-height: 1.28;
+}
+
+.pn-sidebar-brand__title {
+  font-size: 0.815rem;
+  font-weight: 680;
+  color: var(--pn-ink);
+  display: block;
+}
+
+.pn-sidebar-brand__subtitle {
+  font-size: 0.685rem;
+  color: var(--pn-ink-muted);
+}
+
+.pn-filter-group {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--pn-ink-faint);
+  margin: var(--pn-space-4) 0 var(--pn-space-1);
+  padding-bottom: var(--pn-space-1);
+  border-bottom: 1px solid var(--pn-divider);
+}
+
+.pn-filter-summary {
+  background: var(--pn-accent-50);
+  border: 1px solid var(--pn-accent-100);
+  border-radius: var(--pn-radius-md);
+  padding: var(--pn-space-3);
+  font-size: 0.755rem;
+  color: var(--pn-accent-500);
+  line-height: 1.5;
+  margin-top: var(--pn-space-3);
+}
+
+.pn-filter-summary__title {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   8. Controles de Streamlit
+   -------------------------------------------------------------------------- */
+
+.stButton > button,
+.stDownloadButton > button {
+  border-radius: var(--pn-radius-md);
+  border: 1px solid var(--pn-border-strong);
+  background: var(--pn-surface);
+  color: var(--pn-ink);
+  font-weight: 570;
+  font-size: 0.865rem;
+  padding: 0.44rem 0.95rem;
+  box-shadow: var(--pn-shadow-xs);
+  transition: all var(--pn-duration) var(--pn-ease);
+  width: 100%;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+  border-color: var(--pn-brand-200);
+  background: var(--pn-brand-50);
+  color: var(--pn-brand-500);
+  box-shadow: var(--pn-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.stButton > button:focus-visible,
+.stDownloadButton > button:focus-visible {
+  outline: 2px solid var(--pn-accent-300);
+  outline-offset: 2px;
+}
+
+/* Selectores y campos */
+.stSelectbox div[data-baseweb="select"] > div,
+.stMultiSelect div[data-baseweb="select"] > div,
+.stDateInput div[data-baseweb="input"] > div,
+.stNumberInput div[data-baseweb="input"] > div {
+  border-radius: var(--pn-radius-md);
+  border-color: var(--pn-border);
+  background: var(--pn-surface);
+  font-size: 0.865rem;
+}
+
+.stSelectbox div[data-baseweb="select"] > div:hover,
+.stMultiSelect div[data-baseweb="select"] > div:hover {
+  border-color: var(--pn-accent-200);
+}
+
+/* Etiquetas de selección múltiple */
+.stMultiSelect span[data-baseweb="tag"] {
+  background: var(--pn-accent-50) !important;
+  color: var(--pn-accent-500) !important;
+  border: 1px solid var(--pn-accent-100) !important;
+  border-radius: var(--pn-radius-sm) !important;
+  font-size: 0.775rem !important;
+  font-weight: 560 !important;
+}
+
+.stMultiSelect span[data-baseweb="tag"] svg {
+  fill: var(--pn-accent-400) !important;
+}
+
+/* Deslizadores */
+.stSlider [data-baseweb="slider"] div[role="slider"] {
+  background: var(--pn-brand-300) !important;
+  border-color: var(--pn-surface) !important;
+  box-shadow: var(--pn-shadow-sm) !important;
+}
+
+.stSlider [data-testid="stTickBar"] {
+  background: transparent;
+}
+
+/* Etiquetas de control */
+.stSelectbox label,
+.stMultiSelect label,
+.stSlider label,
+.stDateInput label,
+.stRadio label,
+.stCheckbox label,
+.stToggle label {
+  font-size: 0.79rem !important;
+  font-weight: 600 !important;
+  color: var(--pn-ink-secondary) !important;
+  letter-spacing: 0.006em;
+}
+
+/* Pestañas */
+.stTabs [data-baseweb="tab-list"] {
+  gap: 2px;
+  border-bottom: 1px solid var(--pn-border);
+  background: transparent;
+}
+
+.stTabs [data-baseweb="tab"] {
+  border-radius: var(--pn-radius-md) var(--pn-radius-md) 0 0;
+  padding: 9px 17px;
+  font-size: 0.875rem;
+  font-weight: 570;
+  color: var(--pn-ink-muted);
+  background: transparent;
+  border: none;
+  transition: all var(--pn-duration) var(--pn-ease);
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+  color: var(--pn-brand-400);
+  background: var(--pn-brand-50);
+}
+
+.stTabs [aria-selected="true"] {
+  color: var(--pn-brand-500) !important;
+  background: var(--pn-brand-50) !important;
+  font-weight: 640;
+}
+
+.stTabs [data-baseweb="tab-highlight"] {
+  background: var(--pn-brand-300);
+  height: 2px;
+}
+
+/* Expansores: la vista de tabla vive aquí, y es el canal de relevo
+   obligatorio de los rellenos pastel de bajo contraste. */
+.streamlit-expanderHeader,
+details summary {
+  font-size: 0.855rem !important;
+  font-weight: 600 !important;
+  color: var(--pn-ink-secondary) !important;
+  border-radius: var(--pn-radius-md);
+}
+
+[data-testid="stExpander"] {
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-md);
+  background: var(--pn-surface);
+  box-shadow: var(--pn-shadow-xs);
+  overflow: hidden;
+}
+
+[data-testid="stExpander"] summary:hover {
+  background: var(--pn-surface-sunken);
+}
+
+/* Tablas */
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+  border-radius: var(--pn-radius-md);
+  border: 1px solid var(--pn-border);
+  overflow: hidden;
+}
+
+/* Métricas nativas, por si alguna vista las emplea */
+[data-testid="stMetric"] {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-md);
+  padding: var(--pn-space-3) var(--pn-space-4);
+  box-shadow: var(--pn-shadow-xs);
+}
+
+/* Gráficos: el contenedor aporta el marco; el gráfico, sólo los datos. */
+[data-testid="stPlotlyChart"] {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-lg);
+  padding: var(--pn-space-3);
+  box-shadow: var(--pn-shadow-xs);
+  overflow: hidden;
+}
+
+/* Avisos */
+.stAlert {
+  border-radius: var(--pn-radius-md);
+  border-width: 1px;
+  font-size: 0.885rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. Utilidades de composición
+   -------------------------------------------------------------------------- */
+
+.pn-divider {
+  height: 1px;
+  background: var(--pn-divider);
+  border: none;
+  margin: var(--pn-space-6) 0 var(--pn-space-5);
+}
+
+.pn-spacer-sm {
+  height: var(--pn-space-3);
+}
+.pn-spacer-md {
+  height: var(--pn-space-5);
+}
+.pn-spacer-lg {
+  height: var(--pn-space-7);
+}
+
+.pn-note {
+  font-size: 0.775rem;
+  color: var(--pn-ink-faint);
+  line-height: 1.55;
+  margin: var(--pn-space-2) 0 0;
+}
+
+.pn-caption {
+  font-size: 0.79rem;
+  color: var(--pn-ink-muted);
+  line-height: 1.55;
+  padding: var(--pn-space-2) 0 0;
+  border-top: 1px solid var(--pn-divider);
+  margin-top: var(--pn-space-2);
+}
+
+.pn-caption__number {
+  font-weight: 700;
+  color: var(--pn-ink-secondary);
+}
+
+/* Rejilla de tarjetas del equipo */
+.pn-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  gap: var(--pn-space-3);
+}
+
+.pn-team__card {
+  background: var(--pn-surface);
+  border: 1px solid var(--pn-border);
+  border-radius: var(--pn-radius-md);
+  padding: var(--pn-space-4);
+  box-shadow: var(--pn-shadow-xs);
+}
+
+.pn-team__avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--pn-radius-pill);
+  background: linear-gradient(135deg, var(--pn-brand-100), var(--pn-accent-100));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--pn-ink);
+  font-size: 0.855rem;
+  margin-bottom: var(--pn-space-3);
+}
+
+.pn-team__name {
+  font-size: 0.925rem;
+  font-weight: 640;
+  color: var(--pn-ink);
+  margin: 0 0 2px;
+}
+
+.pn-team__role {
+  font-size: 0.775rem;
+  color: var(--pn-brand-400);
+  font-weight: 570;
+  margin: 0 0 var(--pn-space-2);
+}
+
+.pn-team__contributions {
+  margin: 0;
+  padding-left: var(--pn-space-4);
+}
+
+.pn-team__contributions li {
+  font-size: 0.79rem;
+  color: var(--pn-ink-muted);
+  line-height: 1.5;
+  margin-bottom: 3px;
+}
+
+/* Tabla de preguntas de análisis */
+.pn-question {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: var(--pn-space-3);
+  padding: var(--pn-space-3) 0;
+  border-bottom: 1px solid var(--pn-divider);
+}
+
+.pn-question:last-child {
+  border-bottom: none;
+}
+
+.pn-question__code {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--pn-accent-500);
+  background: var(--pn-accent-50);
+  border-radius: var(--pn-radius-sm);
+  padding: 3px 0;
+  text-align: center;
+  height: fit-content;
+}
+
+.pn-question__text {
+  font-size: 0.9rem;
+  color: var(--pn-ink);
+  margin: 0 0 3px;
+  line-height: 1.5;
+  font-weight: 540;
+}
+
+.pn-question__method {
+  font-size: 0.775rem;
+  color: var(--pn-ink-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Estado vacío */
+.pn-empty {
+  text-align: center;
+  padding: var(--pn-space-7) var(--pn-space-5);
+  background: var(--pn-surface);
+  border: 1px dashed var(--pn-border-strong);
+  border-radius: var(--pn-radius-lg);
+}
+
+.pn-empty__icon {
+  font-size: 2.1rem;
+  opacity: 0.4;
+  margin-bottom: var(--pn-space-3);
+}
+
+.pn-empty__title {
+  font-size: 1.02rem;
+  font-weight: 620;
+  color: var(--pn-ink);
+  margin: 0 0 var(--pn-space-2);
+}
+
+.pn-empty__text {
+  font-size: 0.885rem;
+  color: var(--pn-ink-muted);
+  margin: 0 auto;
+  max-width: 46ch;
+  line-height: 1.6;
+}
+
+/* Pie institucional */
+.pn-footer {
+  margin-top: var(--pn-space-7);
+  padding-top: var(--pn-space-4);
+  border-top: 1px solid var(--pn-divider);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--pn-space-4);
+  flex-wrap: wrap;
+  font-size: 0.755rem;
+  color: var(--pn-ink-faint);
+  line-height: 1.6;
+}
+
+.pn-footer strong {
+  color: var(--pn-ink-muted);
+  font-weight: 620;
+}
+
+/* --------------------------------------------------------------------------
+   10. Accesibilidad y comportamiento adaptativo
+   -------------------------------------------------------------------------- */
+
+/* Quien haya pedido menos movimiento al sistema operativo no debe recibir
+   ninguna microinteracción animada. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pn-kpi:hover,
+  .stButton > button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pn-header__title {
+    font-size: 1.5rem;
+  }
+  .pn-kpi__value {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .block-container {
+    padding-left: var(--pn-space-4) !important;
+    padding-right: var(--pn-space-4) !important;
+  }
+  .pn-header {
+    padding: var(--pn-space-4);
+  }
+  .pn-header__logos img {
+    height: 46px;
+  }
+  .pn-header__title {
+    font-size: 1.3rem;
+  }
+  .pn-footer {
+    flex-direction: column;
+  }
+}
+
+/* En impresión y en modo de colores forzados el color no puede portar
+   significado: se refuerzan los bordes para que la estructura sobreviva. */
+@media print {
+  .stApp,
+  .pn-section,
+  .pn-kpi {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+  section[data-testid="stSidebar"] {
+    display: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .pn-kpi,
+  .pn-section,
+  .pn-insight,
+  .pn-badge {
+    border: 1px solid CanvasText;
+  }
+}

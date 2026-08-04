@@ -1,0 +1,216 @@
+{
+  "proyecto": {
+    "titulo": "Riesgo agroclimático por heladas en la región Puno",
+    "subtitulo": "Dashboard interactivo para el análisis y la visualización de datos orientado a la toma de decisiones",
+    "problema": "Las heladas meteorológicas constituyen el principal peligro agroclimático del altiplano peruano: reducen el rendimiento de cultivos altoandinos, comprometen la seguridad alimentaria de las familias productoras y afectan la sanidad del ganado. Pese a la existencia de registros climáticos diarios de acceso abierto, esta información permanece dispersa, en formatos poco amigables y sin instrumentos de exploración que permitan a las autoridades regionales identificar cuándo, dónde y con qué intensidad se concentra el riesgo. Este dashboard transforma diez años de observaciones agrometeorológicas de las trece provincias de Puno en indicadores, visualizaciones y hallazgos accionables para la gestión del riesgo agrícola.",
+    "curso": "Visualización de Datos (SIS328)",
+    "escuela": "Escuela Profesional de Ingeniería de Sistemas",
+    "facultad": "Facultad de Ingeniería Mecánica Eléctrica, Electrónica y Sistemas",
+    "universidad": "Universidad Nacional del Altiplano",
+    "docente": "Ing. Edwin Edgar Mestas Yucra",
+    "semestre": "2026-I",
+    "integrantes": [
+      {
+        "nombre": "Aracayo Mamani, Jhon Marco",
+        "rol": "Arquitectura de software y desarrollo del dashboard",
+        "aportes": [
+          "Diseño de la arquitectura por capas y de los componentes reutilizables.",
+          "Implementación del dashboard en Streamlit y del sistema de filtros global.",
+          "Integración de la capa de exportación (CSV / Excel) y del motor de insights."
+        ]
+      },
+      {
+        "nombre": "Canaza Paucara, Juan Diego",
+        "rol": "Ingeniería de datos y análisis multivariante",
+        "aportes": [
+          "Adquisición y consolidación de los datos desde la API NASA POWER.",
+          "Pipeline de limpieza, imputación y generación de variables derivadas.",
+          "Implementación de PCA, K-Means, clustering jerárquico y detección de anomalías."
+        ]
+      },
+      {
+        "nombre": "Luque Pacheco, Angie Tatiana",
+        "rol": "Visualización de datos, análisis estadístico y redacción técnica",
+        "aportes": [
+          "Diseño de la identidad visual, la paleta pastel y la jerarquía gráfica.",
+          "Construcción y justificación analítica de las visualizaciones.",
+          "Análisis de tendencias, correlaciones y redacción del informe técnico."
+        ]
+      }
+    ]
+  },
+  "fuente_primaria": {
+    "nombre": "ERA5-Land / ERA5 (Copernicus Climate Change Service) vía Open-Meteo",
+    "organizacion": "European Centre for Medium-Range Weather Forecasts (ECMWF) — Copernicus Climate Change Service (C3S); acceso mediante Open-Meteo.com",
+    "endpoint": "https://archive-api.open-meteo.com/v1/archive",
+    "portal": "https://open-meteo.com/en/docs/historical-weather-api",
+    "modelo": "Reanálisis ERA5-Land / ERA5 (configuración «era5_seamless»)",
+    "modelo_solicitado": "era5_seamless",
+    "zona_horaria_agregacion": "America/Lima",
+    "resolucion_espacial": "0.1° ≈ 9 km (ERA5-Land); 0.25° ≈ 28 km en las variables servidas por ERA5",
+    "licencia": "Datos de Copernicus bajo licencia de uso abierto; el servicio de acceso Open-Meteo se distribuye bajo CC BY 4.0. Se permite el uso académico con atribución a ambas partes.",
+    "cita_apa": "Muñoz-Sabater, J., Dutra, E., Agustí-Panareda, A., Albergel, C., Arduini, G., Balsamo, G., Boussetta, S., Choulga, M., Harrigan, S., Hersbach, H., Martens, B., Miralles, D. G., Piles, M., Rodríguez-Fernández, N. J., Zsoter, E., Buontempo, C., & Thépaut, J.-N. (2021). ERA5-Land: A state-of-the-art global reanalysis dataset for land applications. Earth System Science Data, 13(9), 4349–4383. https://doi.org/10.5194/essd-13-4349-2021"
+  },
+  "fuente_secundaria": {
+    "nombre": "NASA POWER — Prediction Of Worldwide Energy Resources",
+    "organizacion": "NASA Langley Research Center (LaRC), Applied Sciences Program",
+    "modelo": "Reanálisis MERRA-2 (Modern-Era Retrospective analysis for Research and Applications, v2)",
+    "resolucion_espacial": "0.5° × 0.625° (≈ 55 km × 65 km)",
+    "proposito": "Validación cruzada independiente del régimen de heladas.",
+    "cita_apa": "NASA Langley Research Center. (2025). NASA Prediction Of Worldwide Energy Resources (POWER) Project: Daily agroclimatology data (Version 2.9.6) [Conjunto de datos]. https://power.larc.nasa.gov/"
+  },
+  "cobertura": {
+    "periodo_inicio": "2015-01-01",
+    "periodo_fin": "2024-12-31",
+    "anios": 10,
+    "dias_por_provincia": 3653,
+    "provincias": [
+      "Puno",
+      "Azángaro",
+      "Carabaya",
+      "Chucuito",
+      "El Collao",
+      "Huancané",
+      "Lampa",
+      "Melgar",
+      "Moho",
+      "San Antonio de Putina",
+      "San Román",
+      "Sandia",
+      "Yunguyo"
+    ],
+    "n_provincias": 13,
+    "ambito": "Región Puno, Perú"
+  },
+  "estructura": {
+    "n_registros": 47489,
+    "n_variables": 52,
+    "n_variables_numericas": 31,
+    "n_variables_categoricas": 14,
+    "n_variables_booleanas": 6,
+    "clave_primaria": [
+      "provincia",
+      "fecha"
+    ],
+    "granularidad": "una observación por provincia y día"
+  },
+  "umbrales": {
+    "helada_meteorologica_c": 0.0,
+    "helada_agronomica_c": 3.0
+  },
+  "preguntas_analisis": [
+    {
+      "codigo": "P1",
+      "pregunta": "¿Cuál es la situación general del riesgo por heladas en la región Puno durante el periodo 2015–2024?",
+      "pagina": "Vista general",
+      "metodo": "Indicadores clave, resumen ejecutivo y perfil climático anual"
+    },
+    {
+      "codigo": "P2",
+      "pregunta": "¿Cómo se distribuye la ocurrencia e intensidad de las heladas entre las provincias y a lo largo del ciclo anual?",
+      "pagina": "Análisis descriptivo",
+      "metodo": "Gráfico de barras, histograma, diagrama de caja y mapa de calor estacional"
+    },
+    {
+      "codigo": "P3",
+      "pregunta": "¿Cómo ha evolucionado la frecuencia e intensidad de las heladas y existe una tendencia estadísticamente significativa?",
+      "pagina": "Análisis descriptivo",
+      "metodo": "Serie temporal, regresión OLS, prueba de Mann-Kendall y pendiente de Sen"
+    },
+    {
+      "codigo": "P4",
+      "pregunta": "¿Qué provincias concentran el mayor y el menor riesgo agroclimático?",
+      "pagina": "Análisis descriptivo / Geográfico",
+      "metodo": "Ranking ordenado, mapa coroplético de puntos y sistema de alertas"
+    },
+    {
+      "codigo": "P5",
+      "pregunta": "¿Qué relación existe entre la altitud, la humedad, la radiación y la precipitación con la temperatura mínima diaria?",
+      "pagina": "Análisis multidimensional",
+      "metodo": "Dispersión con regresión, matriz de correlación Pearson/Spearman y VIF"
+    },
+    {
+      "codigo": "P6",
+      "pregunta": "¿Es posible identificar zonas agroclimáticas homogéneas, factores latentes y días atípicos mediante técnicas multivariantes?",
+      "pagina": "Análisis multidimensional",
+      "metodo": "PCA, K-Means, clustering jerárquico, Isolation Forest y Random Forest"
+    }
+  ],
+  "pipeline_etl": {
+    "rows_input": 47489,
+    "rows_output": 47489,
+    "columns_input": 32,
+    "columns_output": 52,
+    "unit_conversions": {
+      "velocidad_viento": "km/h → m/s (×0.277778)",
+      "racha_viento_maxima": "km/h → m/s (×0.277778)",
+      "presion_superficie": "hPa → kPa (×0.1)",
+      "horas_sol": "s → h (×0.000277778)"
+    },
+    "sentinel_replaced": {},
+    "out_of_range": {},
+    "inconsistent_temperatures": 0,
+    "suspicious_precipitation": 1,
+    "suspicious_precipitation_dates": {
+      "2015-08-10": 1
+    },
+    "duplicates_removed": 0,
+    "missing_dates_added": 0,
+    "imputed": {},
+    "residual_missing": {},
+    "validation_source_merged": 47489,
+    "validation_agreement": {
+      "n_pares": 47489,
+      "correlacion_pearson": 0.6106,
+      "sesgo_medio_c": 1.288,
+      "error_absoluto_medio_c": 2.543,
+      "concordancia_clasificacion_helada_%": 83.06
+    },
+    "derived_variables": [
+      "anio",
+      "mes",
+      "mes_nombre",
+      "mes_abrev",
+      "trimestre",
+      "dia_anio",
+      "semana_anio",
+      "anio_mes",
+      "temporada",
+      "campania_agricola",
+      "piso_ecologico",
+      "oscilacion_termica",
+      "helada",
+      "helada_agronomica",
+      "intensidad_helada",
+      "deficit_termico",
+      "dia_lluvia",
+      "dia_nevada",
+      "deficit_presion_vapor",
+      "indice_riesgo_helada",
+      "nivel_riesgo",
+      "precipitacion_sospechosa",
+      "helada_merra2"
+    ],
+    "steps": [
+      "Inicio del pipeline: 47,489 filas × 32 columnas de entrada.",
+      "Normalización del esquema: 19 variables nativas del servicio se renombraron a nombres semánticos en español y se unificó la nomenclatura geográfica (latitud, longitud, altitud).",
+      "La fecha llegaba como cadena de texto ISO; se convirtió a tipo temporal para habilitar filtros por rango, agregaciones cronológicas y cálculo de tendencias.",
+      "Homogeneización de unidades en 4 variables: velocidad_viento km/h → m/s (×0.277778); racha_viento_maxima km/h → m/s (×0.277778); presion_superficie hPa → kPa (×0.1); horas_sol s → h (×0.000277778).",
+      "No se hallaron valores centinela (-999.0); el servicio codifica la ausencia como nulo JSON, ya interpretado como ausente en la carga.",
+      "Validación de rangos físicos sobre 19 variables: 0 observaciones fuera de los límites admisibles fueron anuladas.",
+      "Verificación de coherencia térmica (mínima ≤ media ≤ máxima): 0 filas incoherentes; en ellas la media se recalculó como punto medio de los extremos observados.",
+      "Control de calidad de la precipitación: 1 acumulados diarios superiores a 100 mm se marcaron como sospechosos y se conservaron sin modificar. El episodio dominante es 2015-08-10, con 1 provincia(s) afectada(s) el mismo día; el dato permanece disponible y trazable para el análisis de anomalías.",
+      "Control de unicidad sobre la clave natural (provincia, fecha): 0 registros duplicados eliminados.",
+      "Reindexado al calendario diario completo (3,653 días × 13 provincias = 47,489 filas esperadas): 0 días ausentes materializados.",
+      "Imputación por provincia (interpolación lineal bidireccional en variables continuas; relleno con cero en las de precipitación): 0 valores completados; 0 ausentes residuales.",
+      "Integración de la fuente secundaria (MERRA-2 / NASA POWER) por la clave (provincia, fecha): 47,489 filas emparejadas. Correlación de la temperatura mínima entre fuentes r = 0.611; sesgo medio +1.29 °C; concordancia en la clasificación binaria de helada 83.1 %.",
+      "Transformación: se generaron 23 variables derivadas (descomposición temporal, caracterización territorial por piso ecológico, indicadores de helada e índice compuesto de riesgo agroclimático).",
+      "Optimización de tipos (categóricos y punto flotante de 32 bits): el dataset analítico ocupa 6.8 MB en memoria.",
+      "Pipeline finalizado: 47,489 filas × 52 columnas en el dataset analítico."
+    ],
+    "total_sentinels": 0,
+    "total_out_of_range": 0,
+    "total_imputed": 0
+  },
+  "generado_en": "2026-08-04T13:11:02-05:00"
+}

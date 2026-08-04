@@ -1,0 +1,17 @@
+* text=auto
+
+# Código y documentación con finales de línea reproducibles.
+*.py text eol=lf
+*.md text eol=lf
+*.tex text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.csv text eol=lf
+*.ipynb text eol=lf
+
+# Entregables y recursos binarios.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.xlsx binary

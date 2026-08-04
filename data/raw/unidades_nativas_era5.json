@@ -1,0 +1,22 @@
+{
+  "time": "iso8601",
+  "temperature_2m_mean": "°C",
+  "temperature_2m_max": "°C",
+  "temperature_2m_min": "°C",
+  "dew_point_2m_mean": "°C",
+  "relative_humidity_2m_mean": "%",
+  "precipitation_sum": "mm",
+  "rain_sum": "mm",
+  "snowfall_sum": "cm",
+  "precipitation_hours": "h",
+  "shortwave_radiation_sum": "MJ/m²",
+  "wind_speed_10m_mean": "km/h",
+  "wind_speed_10m_max": "km/h",
+  "surface_pressure_mean": "hPa",
+  "cloud_cover_mean": "%",
+  "et0_fao_evapotranspiration": "mm",
+  "vapour_pressure_deficit_max": "kPa",
+  "soil_temperature_0_to_7cm_mean": "°C",
+  "soil_moisture_0_to_7cm_mean": "m³/m³",
+  "sunshine_duration": "s"
+}

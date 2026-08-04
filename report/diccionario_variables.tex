@@ -1,0 +1,68 @@
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{2.9cm}>{\centering\arraybackslash}p{1.2cm}>{\centering\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{5.5cm}}
+\caption{Diccionario completo del dataset analítico}\label{tab:diccionario-completo}\\
+\toprule
+\textbf{Variable} & \textbf{Etiqueta} & \textbf{Unidad} & \textbf{Origen} & \textbf{Descripción} \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\small\itshape Continuación de la tabla~\ref{tab:diccionario-completo}}\\
+\toprule
+\textbf{Variable} & \textbf{Etiqueta} & \textbf{Unidad} & \textbf{Origen} & \textbf{Descripción} \\
+\midrule
+\endhead
+\midrule \multicolumn{5}{r}{\small Continúa en la página siguiente}\\
+\endfoot
+\bottomrule
+\endlastfoot
+fecha & Fecha & — & original & Día de observación (resolución diaria). \\
+anio & Año & — & derivada & Año calendario de la observación. \\
+mes & Mes & — & derivada & Número de mes (1–12). \\
+mes\_\allowbreak{}nombre & Nombre del mes & — & derivada & Mes en texto, ordenado cronológicamente. \\
+mes\_\allowbreak{}abrev & Mes abrev & — & derivada & Variable auxiliar del modelo de datos. \\
+trimestre & Trimestre & — & derivada & Trimestre calendario (T1–T4). \\
+dia\_\allowbreak{}anio & Día del año & — & derivada & Día juliano (1–366). \\
+semana\_\allowbreak{}anio & Semana anio & — & derivada & Variable auxiliar del modelo de datos. \\
+anio\_\allowbreak{}mes & Anio mes & — & derivada & Variable auxiliar del modelo de datos. \\
+temporada & Temporada & — & derivada & Lluviosa, Transición o Seca. \\
+campania\_\allowbreak{}agricola & Campaña agrícola & — & derivada & Campaña MIDAGRI de agosto a julio. \\
+provincia & Provincia & — & original & Provincia de la región Puno. \\
+capital & Capital provincial & — & original & Capital que define el punto de consulta. \\
+latitud & Latitud & \textdegree{} & original & Latitud decimal del punto de malla. \\
+longitud & Longitud & \textdegree{} & original & Longitud decimal del punto de malla. \\
+altitud & Altitud & msnm & original & Elevación del punto reportada por la API. \\
+cuenca & Vertiente hidrográfica & — & derivada & Titicaca (endorreica) o Amazonas. \\
+zona\_\allowbreak{}agroecologica & Zona agroecológica & — & derivada & Caracterización agroecológica provincial. \\
+piso\_\allowbreak{}ecologico & Piso ecológico & — & derivada & Piso altitudinal según Pulgar Vidal (1981). \\
+temperatura\_\allowbreak{}minima & Temperatura mínima & \textdegree{}C & original & Temperatura mínima diaria del aire a 2 m; variable central del estudio. \\
+temperatura\_\allowbreak{}media & Temperatura media & \textdegree{}C & original & Temperatura del aire a 2 m, promedio diario. \\
+temperatura\_\allowbreak{}maxima & Temperatura máxima & \textdegree{}C & original & Temperatura máxima diaria del aire a 2 m. \\
+oscilacion\_\allowbreak{}termica & Oscilación térmica & \textdegree{}C & derivada & Diferencia entre temperatura máxima y mínima. \\
+temperatura\_\allowbreak{}suelo & Temperatura del suelo & \textdegree{}C & original & Temperatura media del suelo entre 0 y 7 cm de profundidad. \\
+punto\_\allowbreak{}rocio & Punto de rocío & \textdegree{}C & original & Temperatura de rocío media a 2 m. \\
+humedad\_\allowbreak{}relativa & Humedad relativa & \% & original & Humedad relativa media diaria a 2 m. \\
+deficit\_\allowbreak{}presion\_\allowbreak{}vapor & Déficit de presión de vapor & kPa & derivada & VPD calculado con la ecuación de Tetens. \\
+deficit\_\allowbreak{}presion\_\allowbreak{}vapor\_\allowbreak{}maximo & Déficit de presión de vapor máximo & kPa & original & Valor máximo diario del déficit de presión de vapor. \\
+precipitacion & Precipitación & mm & original & Precipitación total diaria (lluvia y equivalente en agua de nieve). \\
+lluvia & Lluvia & mm & original & Fracción líquida de la precipitación diaria. \\
+nevada & Nevada & cm & original & Espesor de nieve acumulada en el día. \\
+horas\_\allowbreak{}precipitacion & Horas con precipitación & h & original & Número de horas del día con precipitación registrada. \\
+humedad\_\allowbreak{}suelo & Humedad del suelo & m\textsuperscript{3}/m\textsuperscript{3} & original & Contenido volumétrico de agua del suelo entre 0 y 7 cm. \\
+evapotranspiracion & Evapotranspiración de referencia & mm & original & ET\textsubscript{0} diaria calculada con el método FAO-56 Penman-Monteith. \\
+radiacion\_\allowbreak{}solar & Radiación solar & MJ/m\textsuperscript{2} & original & Irradiancia global horizontal acumulada en el día. \\
+horas\_\allowbreak{}sol & Horas de sol & h & original & Duración de la insolación directa. \\
+nubosidad & Nubosidad & \% & original & Cobertura nubosa media diaria; determinante de la helada de radiación. \\
+velocidad\_\allowbreak{}viento & Velocidad del viento & m/s & original & Velocidad media del viento a 10 m. \\
+racha\_\allowbreak{}viento\_\allowbreak{}maxima & Racha máxima de viento & m/s & original & Velocidad máxima del viento a 10 m. \\
+presion\_\allowbreak{}superficie & Presión superficial & kPa & original & Presión atmosférica media en superficie. \\
+helada & Helada meteorológica & — & derivada & Verdadero si la temperatura mínima \ensuremath{\leq} 0 \textdegree{}C. \\
+helada\_\allowbreak{}agronomica & Helada agronómica & — & derivada & Verdadero si la temperatura mínima \ensuremath{\leq} 3 \textdegree{}C. \\
+intensidad\_\allowbreak{}helada & Intensidad de helada & — & derivada & Clasificación ordinal de severidad del evento. \\
+deficit\_\allowbreak{}termico & Déficit térmico & \textdegree{}C & derivada & Grados por debajo del umbral agronómico (0 si no aplica). \\
+indice\_\allowbreak{}riesgo\_\allowbreak{}helada & Índice de riesgo de helada & 0–100 & derivada & Índice compuesto de riesgo agroclimático diario. \\
+nivel\_\allowbreak{}riesgo & Nivel de riesgo & — & derivada & Clasificación ordinal del índice de riesgo en cinco niveles. \\
+dia\_\allowbreak{}lluvia & Día con lluvia & — & derivada & Verdadero si la precipitación \ensuremath{\geq} 1 mm. \\
+dia\_\allowbreak{}nevada & Dia nevada & — & derivada & Variable auxiliar del modelo de datos. \\
+precipitacion\_\allowbreak{}sospechosa & Precipitación implausible & — & derivada & Marca de control de calidad: acumulado diario > 100 mm, atribuible al reanálisis. \\
+temperatura\_\allowbreak{}minima\_\allowbreak{}merra2 & Temperatura mínima (MERRA-2) & \textdegree{}C & original & Temperatura mínima de la fuente secundaria, para validación cruzada. \\
+helada\_\allowbreak{}merra2 & Helada según MERRA-2 & — & derivada & Ocurrencia de helada según la fuente secundaria independiente. \\
+fuente & Fuente & — & derivada & Variable auxiliar del modelo de datos. \\
+\end{longtable}

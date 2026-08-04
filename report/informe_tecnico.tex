@@ -1,0 +1,953 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[a4paper,margin=2.5cm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\definecolor{unapblue}{HTML}{1F5D93}
+\definecolor{brandblue}{HTML}{578BC5}
+\definecolor{brandorange}{HTML}{DB8963}
+\definecolor{ink}{HTML}{263445}
+\definecolor{softblue}{HTML}{E7F1FE}
+\definecolor{softorange}{HTML}{FEECE4}
+\definecolor{linegray}{HTML}{DCE3EC}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=unapblue,
+  citecolor=unapblue,
+  urlcolor=unapblue,
+  pdftitle={Informe técnico: Riesgo agroclimático por heladas en la región Puno},
+  pdfauthor={Aracayo Mamani, Jhon Marco; Canaza Paucara, Juan Diego; Luque Pacheco, Angie Tatiana},
+  pdfsubject={Proyecto final de Visualización de Datos, SIS328},
+  pdfkeywords={heladas, Puno, ERA5-Land, dashboard, visualización de datos, PCA}
+}
+\urlstyle{same}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small UNAP -- Visualización de Datos}
+\fancyhead[R]{\small E.P. Ingeniería de Sistemas}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0.25em}
+\raggedbottom
+\setlist[itemize]{leftmargin=*,itemsep=0.25em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=*,itemsep=0.3em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf,labelsep=period}
+\graphicspath{{figuras/}{../assets/capturas/}{../assets/logos/}}
+
+\input{resultados_macros.tex}
+
+\newcommand{\projectfigure}[4][0.88\textwidth]{%
+  \begin{figure}[H]
+    \centering
+    \IfFileExists{#2}{%
+      \includegraphics[width=#1,height=0.70\textheight,keepaspectratio]{#2}%
+    }{%
+      \fbox{\parbox[c][4.5cm][c]{0.82\textwidth}{\centering
+        Evidencia visual generada por el flujo reproducible del proyecto.\\
+        Artefacto esperado: \texttt{\detokenize{#2}}}}%
+    }
+    \caption{#3}
+    \label{#4}
+  \end{figure}
+}
+
+\newcommand{\smallcapslabel}[1]{\textcolor{unapblue}{\textbf{#1}}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+
+% -----------------------------------------------------------------------------
+% Portada institucional
+% -----------------------------------------------------------------------------
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{center}
+    \begin{minipage}{0.19\textwidth}
+      \raggedright
+      \IfFileExists{../assets/logos/logo_unap.png}{\includegraphics[height=2.3cm]{../assets/logos/logo_unap.png}}{}
+    \end{minipage}
+    \begin{minipage}{0.58\textwidth}
+      \centering
+      {\large\bfseries\color{unapblue} UNIVERSIDAD NACIONAL DEL ALTIPLANO}\par
+      \vspace{0.25em}
+      {\small Escuela Profesional de Ingeniería de Sistemas}\par
+      {\small Facultad de Ingeniería Mecánica Eléctrica, Electrónica y Sistemas}
+    \end{minipage}
+    \begin{minipage}{0.19\textwidth}
+      \raggedleft
+      \IfFileExists{../assets/logos/logo_episi.png}{\includegraphics[height=2.3cm]{../assets/logos/logo_episi.png}}{}
+    \end{minipage}
+
+    \vspace{0.7cm}
+    \textcolor{brandorange}{\rule{0.92\textwidth}{1.4pt}}
+    \vfill
+
+    {\LARGE\bfseries\color{unapblue}
+      RIESGO AGROCLIMÁTICO POR HELADAS\\[0.25em]
+      EN LA REGIÓN PUNO\par}
+
+    \vspace{0.8cm}
+    {\large\bfseries Dashboard interactivo para el análisis y la visualización de datos orientado a la toma de decisiones\par}
+
+    \vspace{1.0cm}
+    {\large Informe técnico presentado para la asignatura de Visualización de Datos\par}
+
+    \vspace{1.0cm}
+    \renewcommand{\arraystretch}{1.35}
+    \begin{tabular}{>{\bfseries}p{3.2cm}p{9.7cm}}
+      Docente: & Ing. Edwin Edgar Mestas Yucra \\
+      Asignatura: & Visualización de Datos \\
+      Código: & SIS328 \\
+      Semestre: & 2026-I \\
+      Ciclo: & X \\
+      Integrantes: & Aracayo Mamani, Jhon Marco \\
+                   & Canaza Paucara, Juan Diego \\
+                   & Luque Pacheco, Angie Tatiana \\
+      Fuente: & ERA5-Land / ERA5 (ECMWF--Copernicus), con validación MERRA-2 (NASA POWER) \\
+      Periodo: & 1 de enero de 2015 al 31 de diciembre de 2024
+    \end{tabular}
+
+    \vfill
+    \textcolor{brandorange}{\rule{0.92\textwidth}{1.4pt}}\\[0.55cm]
+    {\large Puno -- Perú}\\[0.15cm]
+    {\large 2026}
+  \end{center}
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+\pagenumbering{arabic}
+
+% -----------------------------------------------------------------------------
+\section{Resumen}
+
+Se desarrolló un dashboard interactivo para caracterizar la frecuencia, intensidad,
+estacionalidad y distribución territorial de las heladas en las trece provincias de la
+región Puno. La unidad de análisis es la observación diaria por capital provincial. El
+dataset integra \NRegistros{} registros del periodo 2015--2024 y \NVariables{} variables
+analíticas. La fuente primaria es ERA5-Land / ERA5 del Servicio de Cambio Climático de
+Copernicus, consultada mediante Open-Meteo a una resolución aproximada de 9~km; MERRA-2,
+obtenida de NASA POWER, se empleó únicamente para validación cruzada.
+
+El proceso incluyó normalización del esquema, conversión de unidades, validación física,
+control de duplicados y continuidad temporal, integración de fuentes y construcción de 23
+variables derivadas. La tasa de helada meteorológica (temperatura mínima $\leq 0\,^{\circ}\mathrm{C}$)
+fue \TasaHelada{}, mientras que la tasa bajo el umbral agronómico ($\leq 3\,^{\circ}\mathrm{C}$)
+alcanzó \TasaHeladaAgronomica{}. El riesgo no fue homogéneo: Carabaya acumuló 1,126 días
+con helada, frente a ninguno en Sandia y Yunguyo. Julio concentró la mayor incidencia
+mensual (\TasaJulio{}). Los contrastes OLS y Mann--Kendall no identificaron una tendencia
+significativa en la ventana de diez años. El análisis multivariante mostró que la primera
+componente explica \PCAUno{} de la varianza y que \PCANoventa{} componentes alcanzan el
+90\,\%. Los resultados se presentan mediante indicadores, filtros, visualizaciones y
+explicaciones orientadas a la planificación agraria diferenciada por territorio.
+
+\noindent\textbf{Palabras clave:} helada, riesgo agroclimático, Puno, ERA5-Land, dashboard,
+visualización de datos, análisis multivariante.
+
+\subsection*{Abstract}
+
+An interactive dashboard was developed to characterize the frequency, severity,
+seasonality, and spatial distribution of frost across the thirteen provinces of Puno,
+Peru. The unit of analysis is a daily observation at each provincial capital. The
+analytical dataset contains \NRegistros{} records and \NVariables{} variables for
+2015--2024. ERA5-Land / ERA5, provided by the Copernicus Climate Change Service and
+accessed through Open-Meteo, is the primary source; MERRA-2 from NASA POWER is used only
+for cross-validation. Meteorological frost occurred in \TasaHelada{} of records, whereas
+the agronomic threshold yielded \TasaHeladaAgronomica{}. Frost exposure varied markedly
+among provinces and peaked in July. Neither OLS nor Mann--Kendall detected a statistically
+significant monotonic trend over the ten-year window. PCA, clustering, anomaly detection,
+and an explanatory Random Forest complement the descriptive views. The resulting system
+turns reproducible climate data into indicators and evidence for territorially targeted
+agricultural decisions.
+
+\noindent\textbf{Keywords:} frost, agroclimatic risk, Puno, ERA5-Land, dashboard, data
+visualization, multivariate analysis.
+
+% -----------------------------------------------------------------------------
+\section{Introducción}
+
+La helada ocurre cuando la temperatura del aire próximo a la superficie desciende hasta
+un nivel capaz de afectar tejidos vegetales, agua disponible y condiciones de manejo
+pecuario. En el altiplano, su efecto depende tanto de la temperatura mínima como de la
+estación, la altitud, la humedad, la nubosidad, el viento y la exposición territorial. Por
+ello, un único promedio regional puede ocultar contrastes que son decisivos para la
+programación de siembras, la focalización del seguro agrario y la preparación de alertas.
+
+Los reanálisis climáticos permiten estudiar el fenómeno de forma continua allí donde la
+red de estaciones es escasa. ERA5-Land combina modelación física y asimilación de
+observaciones para producir series espacial y temporalmente coherentes (Muñoz-Sabater
+et~al., 2021). Su uso no sustituye la medición en superficie, pero ofrece una base
+reproducible para comparar territorios bajo una definición común. La visualización
+interactiva añade una segunda capa de valor: permite cambiar umbrales, periodos y unidades
+territoriales sin perder la trazabilidad del cálculo.
+
+Este proyecto adopta el principio de que cada gráfico debe responder una pregunta. La
+vista general resume la magnitud del problema; el análisis descriptivo muestra
+distribuciones y evolución; el módulo multidimensional examina relaciones, factores
+latentes, grupos y anomalías; la vista geográfica sitúa el riesgo; y la sección final
+explicita hallazgos, recomendaciones y límites. La metodología combina estadística
+descriptiva, inferencia, aprendizaje automático explicativo y criterios de diseño visual.
+
+% -----------------------------------------------------------------------------
+\section{Planteamiento del problema}
+
+Las heladas constituyen uno de los peligros agroclimáticos más relevantes para los
+sistemas productivos altoandinos. Sin embargo, los registros disponibles suelen estar
+dispersos en servicios especializados y expresados mediante variables y unidades que no
+son inmediatamente utilizables por quienes toman decisiones. Esta distancia entre dato y
+acción favorece dos simplificaciones: tratar a Puno como un territorio climáticamente
+homogéneo y usar exclusivamente el umbral meteorológico de 0~\textdegree C, aun cuando
+muchos cultivos presentan daño potencial por debajo de 3~\textdegree C.
+
+La pregunta central es: \emph{¿cómo se distribuyen en el tiempo y en el territorio la
+frecuencia y la intensidad de las heladas en las trece provincias de Puno, y qué factores
+climáticos se asocian con ellas durante 2015--2024?} El problema exige una solución que
+integre adquisición, depuración, análisis y comunicación. Mostrar datos sin interpretación
+no es suficiente: el usuario debe poder identificar la ventana crítica, comparar
+provincias, evaluar relaciones y descargar el subconjunto que sustenta cada lectura.
+
+La relevancia práctica se observa en la diferencia entre umbrales: se contabilizaron
+\NHeladas{} observaciones bajo el umbral meteorológico y \NHeladasAgronomicas{} bajo el
+agronómico. Planificar sólo con el primer criterio reduce el fenómeno visible a cerca de
+una fracción $1/\FactorAgronomico{}$ del riesgo térmico potencial para el cultivo.
+
+% -----------------------------------------------------------------------------
+\section{Objetivos}
+
+\subsection{Objetivo general}
+
+Diseñar, implementar y documentar un dashboard interactivo que transforme datos
+agroclimáticos verificables en indicadores, visualizaciones y conclusiones sobre el riesgo
+por heladas en la región Puno durante 2015--2024, con énfasis en la toma de decisiones
+territorialmente diferenciada.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}
+  \item Construir un dataset diario, trazable y sin discontinuidades para las trece
+        capitales provinciales, documentando fuente, unidades y controles de calidad.
+  \item Medir la frecuencia, intensidad, estacionalidad y variación interanual de las
+        heladas meteorológicas y agronómicas.
+  \item Comparar provincias, pisos ecológicos y zonas agroecológicas para identificar
+        concentraciones territoriales del riesgo.
+  \item Evaluar asociaciones entre temperatura mínima, altitud, humedad, nubosidad,
+        precipitación, radiación y viento mediante métodos lineales y no paramétricos.
+  \item Aplicar PCA, K-Means, agrupamiento jerárquico, detección de anomalías y Random
+        Forest como técnicas complementarias, declarando su alcance y sus límites.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Preguntas analíticas y método principal de respuesta}
+\label{tab:preguntas}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries\centering\arraybackslash}p{1.3cm}X>{\raggedright\arraybackslash}p{4.7cm}}
+\toprule
+Código & Pregunta & Método principal \\
+\midrule
+P1 & ¿Cuál es la situación general del riesgo por heladas? & KPI, resumen ejecutivo y perfil anual. \\
+P2 & ¿Cómo se distribuye la ocurrencia e intensidad entre provincias y meses? & Barras, histograma, caja y calendario térmico. \\
+P3 & ¿Existe una evolución o tendencia significativa? & Serie anual, OLS, Mann--Kendall y pendiente de Sen. \\
+P4 & ¿Qué provincias concentran el mayor y menor riesgo? & Ranking, mapa interactivo y comparación territorial. \\
+P5 & ¿Qué relación existe entre variables ambientales y temperatura mínima? & Pearson, Spearman, dispersión y VIF. \\
+P6 & ¿Existen factores latentes, zonas homogéneas y días atípicos? & PCA, K-Means, Ward, Isolation Forest y Random Forest. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -----------------------------------------------------------------------------
+\section{Descripción y procedencia del dataset}
+
+\subsection{Fuentes y cobertura}
+
+La fuente primaria es el reanálisis ERA5-Land / ERA5 del European Centre for
+Medium-Range Weather Forecasts y el Copernicus Climate Change Service, consultado mediante
+la API histórica de Open-Meteo con el modelo \texttt{era5\_seamless} y agregación en la zona
+horaria \texttt{America/Lima}. La fuente secundaria es MERRA-2, distribuida por NASA POWER.
+Ambas cubren las mismas fechas y capitales; la segunda no alimenta los indicadores, sino
+que permite evaluar si la señal binaria de helada depende de un único producto.
+
+\begin{table}[H]
+\centering
+\caption{Comparación de las fuentes climáticas utilizadas}
+\label{tab:fuentes}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{3.2cm}XX}
+\toprule
+Criterio & Fuente primaria & Fuente secundaria \\
+\midrule
+Producto & ERA5-Land / ERA5 & MERRA-2 \\
+Institución & ECMWF--Copernicus C3S; acceso Open-Meteo & NASA Langley Research Center; NASA POWER \\
+Resolución nominal & 0,1\textdegree{}, aproximadamente 9~km & 0,5\textdegree{} $\times$ 0,625\textdegree{}, aproximadamente 55--65~km \\
+Granularidad & Diaria por capital provincial & Diaria por capital provincial \\
+Función analítica & Fuente de todos los indicadores y modelos & Validación cruzada independiente \\
+Periodo & 2015-01-01 a 2024-12-31 & 2015-01-01 a 2024-12-31 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La elección de la malla más fina responde a una prueba previa. Con MERRA-2, Chucuito, El
+Collao y Yunguyo recibían series idénticas al caer en una misma celda; lo mismo ocurría con
+Azángaro, Huancané y San Antonio de Putina. Además, la celda asignaba 3,668~msnm a
+Sandia, cuya capital se ubica alrededor de 2,170--2,300~msnm. Un ranking elaborado sobre
+esa malla habría confundido la geometría del producto con diferencias provinciales. ERA5-
+Land distingue los trece puntos, con elevaciones de malla entre 2,294 y 4,321~msnm.
+
+\subsection{Estructura y cumplimiento de los requisitos}
+
+La clave natural es el par \texttt{(provincia, fecha)}. Existen \NDias{} días por provincia,
+\NProvincias{} provincias y, por multiplicación, \NRegistros{} registros. Las \NVariables{}
+columnas incluyen variables temporales, territoriales, térmicas, hídricas, de radiación y
+viento, indicadores derivados y campos de control de calidad.
+
+\begin{table}[H]
+\centering
+\caption{Verificación de los requisitos oficiales del conjunto de datos}
+\label{tab:requisitos-datos}
+\small
+\begin{tabularx}{\textwidth}{X>{\centering\arraybackslash}p{2cm}X}
+\toprule
+Requisito & Estado & Evidencia \\
+\midrule
+Al menos 500 registros & Cumple & \NRegistros{} observaciones. \\
+Al menos seis variables & Cumple & \NVariables{} variables documentadas. \\
+Variables numéricas y categóricas & Cumple & 31 numéricas, 14 categóricas y 6 booleanas; fecha temporal. \\
+Dimensión temporal o geográfica & Cumple & Fecha diaria, provincia, latitud, longitud y altitud. \\
+Fuente verificable y citada & Cumple & ERA5-Land / ERA5 y MERRA-2, con DOI o portal institucional. \\
+Necesidad de limpieza o integración & Cumple & Pipeline de 13 etapas, cuatro conversiones e integración de 47,489 pares. \\
+Sin información sensible & Cumple & Sólo variables ambientales agregadas por punto de malla. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -----------------------------------------------------------------------------
+\section{Metodología de limpieza y transformación}
+
+\subsection{Pipeline reproducible}
+
+La ingeniería de datos se implementó como funciones independientes de Streamlit. El mismo
+pipeline puede invocarse desde scripts, pruebas o cuadernos, lo que reduce divergencias
+entre la aplicación y el informe. La Tabla~\ref{tab:pipeline} resume sus trece etapas.
+
+\begin{longtable}{>{\centering\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{9.3cm}}
+\caption{Etapas del pipeline de preparación de datos}\label{tab:pipeline}\\
+\toprule
+\textbf{N.} & \textbf{Etapa} & \textbf{Operación y control} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{N.} & \textbf{Etapa} & \textbf{Operación y control} \\
+\midrule
+\endhead
+1 & Normalización & Renombrado de 19 variables nativas y unificación de campos territoriales. \\
+2 & Fecha & Conversión de texto ISO a tipo temporal y orden cronológico. \\
+3 & Unidades & Conversión de viento, presión e insolación a unidades analíticas comunes. \\
+4 & Centinelas & Sustitución auditable de códigos de ausencia; no se encontraron $-999$. \\
+5 & Rangos físicos & Comprobación de límites plausibles en 19 variables; cero valores anulados. \\
+6 & Coherencia térmica & Validación de mínima $\leq$ media $\leq$ máxima; cero incoherencias. \\
+7 & Precipitación & Marcado, sin borrado, de acumulados superiores a 100~mm/día; un caso. \\
+8 & Unicidad & Eliminación de duplicados sobre provincia--fecha; cero duplicados. \\
+9 & Calendario & Reindexado a \NDias{} días por provincia; cero fechas ausentes. \\
+10 & Imputación & Interpolación intraprovincial sólo cuando fuese necesaria; cero imputaciones. \\
+11 & Integración & Unión uno a uno con MERRA-2 y cálculo de concordancia. \\
+12 & Derivación & Generación de 23 campos temporales, territoriales y de riesgo. \\
+13 & Tipado & Categorías y flotantes de 32 bits; 6,8~MB de memoria analítica. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Conversión de unidades y control de calidad}
+
+\begin{table}[H]
+\centering
+\caption{Conversiones de unidad aplicadas antes del análisis}
+\label{tab:conversiones}
+\small
+\begin{tabular}{lll}
+\toprule
+Variable & Unidad original & Unidad final \\
+\midrule
+Velocidad del viento & km/h & m/s, factor $0{,}277778$ \\
+Racha máxima & km/h & m/s, factor $0{,}277778$ \\
+Presión superficial & hPa & kPa, factor $0{,}1$ \\
+Duración de insolación & s & h, factor $0{,}000277778$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La radiación solar requirió una revisión específica. El servicio entrega el acumulado en
+MJ/m$^2$/día. Interpretarlo como kWh/m$^2$/día y limitarlo al intervalo 0--12 habría
+invalidado 46,564 observaciones, que luego podrían haber sido rellenadas por interpolación
+sin que el error fuese visible. El rango correcto, 0--45~MJ/m$^2$/día, no anuló ninguna
+observación. Este episodio demuestra que la validación debe basarse en la unidad declarada
+por el servicio y no sólo en el nombre del parámetro.
+
+Se conservó un registro con precipitación superior a 100~mm el 10 de agosto de 2015 y se
+marcó mediante \texttt{precipitacion\_sospechosa}. La decisión evita eliminar un episodio
+posiblemente real y permite incluirlo o excluirlo con trazabilidad. El dataset final no
+contiene ausentes, duplicados ni fechas faltantes.
+
+\subsection{Definiciones operativas e índice de riesgo}
+
+Se definió helada meteorológica cuando $T_{\min}\leq 0\,^{\circ}\mathrm{C}$ y helada agronómica
+cuando $T_{\min}\leq 3\,^{\circ}\mathrm{C}$. La intensidad meteorológica se dividió en ligera
+(0 a $-2\,^{\circ}\mathrm{C}$), moderada ($-2$ a $-4\,^{\circ}\mathrm{C}$), severa ($-4$ a
+$-6\,^{\circ}\mathrm{C}$) y extrema (menor que $-6\,^{\circ}\mathrm{C}$).
+
+El índice diario de riesgo de helada, en escala 0--100, combina cuatro mecanismos. Todos
+se normalizan con límites fijos y se recortan a $[0,1]$:
+
+\begin{align}
+D &= \operatorname{clip}\!\left(\frac{3-T_{\min}}{12},0,1\right), &
+C &= \operatorname{clip}\!\left(1-\frac{N}{100},0,1\right),\\
+S &= \operatorname{clip}\!\left(\frac{100-H}{60},0,1\right), &
+V &= \operatorname{clip}\!\left(1-\frac{v}{8},0,1\right),\\
+IRH &= 100\left(0{,}45D+0{,}25C+0{,}20S+0{,}10V\right),
+\label{eq:riesgo}
+\end{align}
+
+donde $N$ es nubosidad porcentual, $H$ humedad relativa y $v$ velocidad del viento en
+m/s. El déficit térmico recibe el mayor peso por representar el efecto directo; el cielo
+despejado, la sequedad y la calma describen condiciones favorables a la pérdida radiativa.
+Los límites fijos hacen comparables dos selecciones filtradas. Los pesos son explícitos,
+pero no están calibrados contra pérdidas de rendimiento y por ello el índice no debe
+interpretarse como probabilidad de daño.
+
+\subsection{Validación cruzada}
+
+Los \NRegistros{} pares ERA5-Land--MERRA-2 presentaron correlación $r=\FuenteR{}$, sesgo
+medio de \FuenteSesgo{} y error absoluto medio de \FuenteMAE{}. La clasificación binaria
+de helada coincidió en \FuenteConcordancia{}. La concordancia respalda la señal general;
+la correlación moderada es coherente con la diferencia entre mallas de 9 y 55--65~km y
+obliga a interpretar con más confianza los patrones relativos que los valores puntuales.
+
+% -----------------------------------------------------------------------------
+\section{Diseño del dashboard}
+
+\subsection{Arquitectura por capas}
+
+La aplicación separa configuración, dominio, componentes y vistas. Esta decisión reduce
+el acoplamiento y permite probar los cálculos sin iniciar un servidor web.
+
+\begin{table}[H]
+\centering
+\caption{Responsabilidad de las capas del proyecto}
+\label{tab:arquitectura}
+\small
+\begin{tabularx}{\textwidth}{>{\ttfamily}p{3.0cm}X}
+\toprule
+Directorio & Responsabilidad \\
+\midrule
+config/ & Rutas, metadatos, fuentes, umbrales, provincias, preguntas e identidad visual. \\
+utils/ & Adquisición, limpieza, filtros, métricas, estadística, modelos y exportación. \\
+components/ & Tarjetas, KPI, gráficos, barra lateral, navegación y descargas reutilizables. \\
+pages/ & Orquestación de las vistas; consume funciones de dominio sin duplicar cálculos. \\
+scripts/ & Flujo reproducible de descarga, procesamiento, resultados y capturas. \\
+data/ & Originales, dataset analítico, diccionario y metadatos de trazabilidad. \\
+report/ & Fuente LaTeX, resultados calculados y figuras del informe. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Diseño visual y accesibilidad}
+
+La interfaz usa una identidad pastel de naranja y azul en superficies amplias. Los trazos,
+marcadores y textos emplean versiones más oscuras para conservar contraste. La paleta no
+se seleccionó únicamente por preferencia estética: se optimizó en el espacio OKLCH bajo
+restricciones de claridad, croma, contraste con el fondo y separación cromática simulada
+para protanopía y deuteranopía según el modelo de Machado, Oliveira y Fernandes (2009).
+
+Se aplicaron tres reglas. Primero, una categoría nominal comparada en barras mantiene un
+color común y usa posición y longitud como canales principales; el color destaca sólo una
+referencia. Segundo, las variables continuas usan escalas secuenciales y las cantidades con
+signo, escalas divergentes centradas en cero. Tercero, toda codificación cromática dispone
+de un canal de relevo mediante etiquetas, marcadores o tabla descargable. La dispersión y
+los mapas limitan a cuatro series cuando cualquier par de marcas puede quedar adyacente.
+
+\subsection{Vistas, filtros e interacción}
+
+La vista general y cinco páginas analíticas conservan un estado compartido. Los ocho
+controles incluyen rango temporal, provincias, pisos ecológicos, temporadas, temperatura
+mínima, altitud, umbral de helada y exclusión de registros sospechosos. Al modificar un
+control se recalculan KPI, gráficos, tablas e interpretaciones. La selección persiste al
+navegar, lo que constituye filtrado cruzado real.
+
+\begin{table}[H]
+\centering
+\caption{Módulos del dashboard y propósito analítico}
+\label{tab:modulos}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.4cm}X}
+\toprule
+Vista & Contenido y propósito \\
+\midrule
+Vista general & Ocho KPI, resumen ejecutivo, hallazgos automáticos, riesgo, ranking y ciclo anual. \\
+Análisis descriptivo & Distribuciones, comparación provincial, estacionalidad y tendencia P2--P4. \\
+Análisis multidimensional & Correlación, PCA, agrupamientos, anomalías y modelo explicativo P5--P6. \\
+Análisis geográfico & Mapa interactivo, perfil altitudinal, cuencas, pisos y efecto circunlacustre. \\
+Conclusiones & Respuesta explícita a P1--P6, recomendaciones, límites, fuentes y trazabilidad. \\
+Metodología y datos & Fuentes, requisitos, bitácora, unidades, diccionario, validación y descargas. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+El inventario supera las seis visualizaciones obligatorias: barras para ranking; líneas
+para evolución; histograma y caja para distribución térmica; dispersión para relaciones;
+mapa de calor estacional; mapa geográfico; scree plot, biplot y proyección 3D para PCA;
+dendrograma para Ward; cronología de anomalías; curvas ROC y precisión--recobrado para el
+clasificador. Cada gráfico se acompaña de descripción, patrón, hallazgo, decisión y
+limitación. Los datos filtrados pueden descargarse en CSV con codificación UTF-8 BOM y en
+un libro Excel de varias hojas.
+
+% -----------------------------------------------------------------------------
+\section{Resultados e interpretación}
+
+Los resultados de esta sección se recalcularon desde \path{data/datos_limpios.csv} con
+semilla 42 y se almacenaron en \path{report/resultados.json}. Las figuras se generan con
+\path{report/generar_figuras_informe.py}; no son transcripciones manuales.
+
+\subsection{P1: situación general del riesgo}
+
+De \NRegistros{} observaciones, \NHeladas{} cumplieron el umbral meteorológico, equivalente
+a \TasaHelada{}. El umbral agronómico identificó \NHeladasAgronomicas{} observaciones
+(\TasaHeladaAgronomica{}), \FactorAgronomico{} veces la incidencia meteorológica. La
+temperatura mínima media fue \TminMedia{} y la mínima absoluta, \TminAbsoluta{} en
+Carabaya el 23 de julio de 2018. El índice compuesto promedió \RiesgoMedio{} puntos.
+
+\begin{table}[H]
+\centering
+\caption{Distribución de la intensidad de helada meteorológica}
+\label{tab:intensidad}
+\begin{tabular}{lrr}
+\toprule
+Clase & Observaciones & Proporción del total \\
+\midrule
+Sin helada & 39,869 & 83,95\,\% \\
+Ligera & 5,180 & 10,91\,\% \\
+Moderada & 2,090 & 4,40\,\% \\
+Severa & 320 & 0,67\,\% \\
+Extrema & 30 & 0,06\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La mayoría de los eventos fue ligera o moderada; aun así, 350 observaciones alcanzaron
+intensidad severa o extrema. La decisión operativa no debe basarse sólo en el promedio:
+los extremos y el umbral agronómico cambian el volumen de días que requieren prevención.
+
+\subsection{P2: distribución provincial y ciclo anual}
+
+\projectfigure{figuras/01_ranking_provincial.png}{Ranking provincial de días con helada meteorológica. La longitud de la barra codifica el conteo acumulado bajo un periodo común para todas las provincias.}{fig:ranking}
+
+Carabaya encabezó el ranking con 1,126 días (30,82\,\% de sus observaciones), seguida por
+San Antonio de Putina con 976 y El Collao con 962. Yunguyo y Sandia no presentaron días
+bajo 0~\textdegree C en el punto de malla analizado. Esta ausencia no implica que toda la
+provincia esté libre de heladas: cada territorio se representa mediante una sola capital.
+
+\begin{table}[H]
+\centering
+\caption{Indicadores térmicos por provincia, 2015--2024}
+\label{tab:provincias}
+\scriptsize
+\begin{tabular}{lrrrr}
+\toprule
+Provincia & Altitud (m) & Días & Tasa (\%) & $T_{\min}$ media (\textdegree C) \\
+\midrule
+Carabaya & 4,321 & 1,126 & 30,82 & 0,96 \\
+San Antonio de Putina & 3,867 & 976 & 26,72 & 2,24 \\
+El Collao & 3,835 & 962 & 26,33 & 2,85 \\
+San Román & 3,828 & 930 & 25,46 & 2,53 \\
+Azángaro & 3,861 & 830 & 22,72 & 2,45 \\
+Lampa & 3,868 & 799 & 21,87 & 2,72 \\
+Puno & 3,819 & 683 & 18,70 & 3,41 \\
+Melgar & 3,912 & 460 & 12,59 & 2,82 \\
+Chucuito & 3,872 & 406 & 11,11 & 4,10 \\
+Huancané & 3,838 & 365 & 9,99 & 3,93 \\
+Moho & 4,043 & 83 & 2,27 & 4,05 \\
+Sandia & 2,294 & 0 & 0,00 & 10,10 \\
+Yunguyo & 3,825 & 0 & 0,00 & 7,15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\projectfigure{figuras/02_ciclo_anual.png}{Ciclo anual promedio. Los paneles separados evitan un doble eje y muestran que el máximo de heladas coincide con la estación de menor precipitación.}{fig:ciclo}
+
+La incidencia fue menor que 1\,\% entre enero y marzo y alcanzó 47,44\,\% en junio y
+\TasaJulio{} en julio. En esos meses la precipitación diaria media descendió a 0,79 y
+0,63~mm, respectivamente. El patrón es consistente con heladas radiativas bajo cielos más
+despejados y aire seco; la visualización identifica mayo--agosto como la ventana prioritaria
+para preparación, sin afirmar que precipitación y helada mantengan una relación causal
+aislada.
+
+\projectfigure{figuras/07_calendario_heladas.png}{Calendario provincia--mes de incidencia de heladas. Las celdas muestran el porcentaje de observaciones bajo 0~\textdegree C.}{fig:calendario}
+
+\subsection{P3: evolución y tendencia}
+
+\projectfigure{figuras/03_tendencia_anual.png}{Promedio anual de días con helada por provincia y ajuste lineal OLS.}{fig:tendencia}
+
+La tasa anual osciló entre 11,14\,\% en 2024 y 18,23\,\% en 2015. OLS estimó
+\OLSPendiente{} días por provincia y año, pero el intervalo de confianza al 95\,\% incluyó
+cero y $p=\OLSp{}$ ($R^2=\OLSRdos{}$). Mann--Kendall produjo
+$\tau=\MKTau{}$, pendiente de Sen \SenPendiente{} y $p=\MKp{}$. Ambos métodos coinciden:
+no existe evidencia suficiente de tendencia monotónica al nivel 0,05.
+
+\begin{table}[H]
+\centering
+\caption{Contrastes de tendencia sobre los días anuales de helada por provincia}
+\label{tab:tendencia}
+\begin{tabular}{lrrrrl}
+\toprule
+Método & Pendiente & Estadístico & $p$ & $n$ & Lectura \\
+\midrule
+OLS & -1,37 días/año & $R^2=0,260$ & 0,132 & 10 & No significativa \\
+Mann--Kendall/Sen & -1,00 días/año & $\tau=-0,422$ & 0,107 & 10 & Sin tendencia \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La caída observada en 2024 no se interpreta como cambio climático. Diez años son
+insuficientes para establecer una normal climática y la variabilidad interanual puede
+dominar el ajuste. El resultado sí permite afirmar que el periodo estudiado no ofrece
+evidencia estadística de una reducción sostenida.
+
+\subsection{P4: concentración territorial del riesgo}
+
+El contraste más informativo aparece entre Yunguyo y San Román. Sus elevaciones de malla
+son casi idénticas (3,825 y 3,828~msnm), pero acumularon 0 y 930 días con helada. En el
+conjunto de trece provincias, la relación entre altitud y tasa fue positiva
+($r=\AltitudR{}$), aunque no significativa al 5\,\% ($p=\AltitudP{}$). En el nivel diario,
+la correlación entre altitud y temperatura mínima fue $r=-0,551$.
+
+Las observaciones de la zona ``Altiplano circunlacustre'' presentaron una tasa de
+\LagoTasa{}, frente a \RestoTasa{} en el resto. La diferencia es consistente con el efecto
+termorregulador del lago Titicaca, cuya inercia térmica atenúa el enfriamiento nocturno.
+No obstante, el diseño observacional y la representación por un punto no permiten aislar
+causalmente el efecto del lago frente a topografía, cobertura y circulación local. La
+decisión prudente es evitar zonificaciones basadas sólo en altitud y combinar la posición
+circunlacustre con evidencia local.
+
+\subsection{P5: relación entre variables agroclimáticas}
+
+\projectfigure[0.82\textwidth]{figuras/04_correlaciones.png}{Correlaciones de Pearson entre variables seleccionadas. La escala divergente separa asociaciones negativas y positivas.}{fig:correlaciones}
+
+La temperatura mínima mostró las asociaciones lineales más altas con temperatura del
+suelo ($r=0,658$), nubosidad ($r=0,561$), altitud ($r=-0,551$) y humedad relativa
+($r=0,536$). La precipitación alcanzó $r=0,437$ y la radiación solar $r=-0,105$. Spearman
+confirmó el orden general, con $\rho=0,679$ para temperatura del suelo y $\rho=0,557$ para
+precipitación. Dado el tamaño muestral, magnitudes pequeñas pueden resultar
+estadísticamente detectables; por eso la interpretación prioriza tamaño y mecanismo, no
+sólo el valor $p$.
+
+La asociación positiva entre humedad, nubosidad y mínima diaria es físicamente coherente
+con la reducción de la pérdida radiativa nocturna. Sin embargo, una correlación bivariada
+no separa estación, provincia ni colinealidad. El dashboard ofrece Pearson y Spearman,
+valores $p$ y VIF, y usa la dispersión para reconocer no linealidad y grupos territoriales.
+
+\subsection{P6: factores latentes, agrupamientos, anomalías y explicación}
+
+\projectfigure{figuras/05_pca_varianza.png}{Varianza individual y acumulada del PCA aplicado a doce variables estandarizadas.}{fig:pca}
+
+El PCA se ejecutó después de estandarizar las doce variables; de otro modo la altitud,
+medida en miles de metros, dominaría por escala. CP1 explicó \PCAUno{} y estuvo definida
+principalmente por humedad relativa y punto de rocío con cargas positivas, frente a
+oscilación térmica negativa: un eje humedad--amplitud. CP2 explicó 20,46\,\% y concentró
+temperatura del suelo, evapotranspiración, radiación y temperatura mínima: un eje térmico-
+energético. Las dos primeras sumaron \PCADosAcum{}; fueron necesarias \PCANoventa{}
+componentes para superar 90\,\%, por lo que reducir todo el sistema a dos dimensiones
+facilita la visualización pero no conserva toda la información.
+
+K-Means seleccionó $k=\KOptimo{}$ al maximizar la silueta entre dos y cuatro grupos. La
+silueta fue \Silueta{}, clasificada como estructura débil. Los perfiles separaron un
+régimen seco con helada frecuente (34,4\,\% y riesgo medio 47,44), uno húmedo con baja
+incidencia (3,2\,\%) y el régimen cálido de Sandia (0\,\%). Los grupos son una síntesis
+exploratoria, no fronteras agroclimáticas definitivas.
+
+Isolation Forest marcó \NAnomalias{} observaciones, aproximadamente 1\,\% del total. Las
+más extremas combinaron altas temperaturas, lluvia intensa, humedad cercana a saturación,
+nubosidad y baja radiación, especialmente en Sandia. Esta lectura ilustra la ventaja del
+criterio multivariante: una observación puede ser atípica por combinación aunque ninguna
+variable aislada supere un umbral fijo.
+
+El Random Forest explicativo, entrenado con partición cronológica, alcanzó AUC ROC
+\RFAUC{}, precisión media \RFAP{}, exactitud \RFExactitud{}, sensibilidad
+\RFSensibilidad{} y precisión positiva \RFPrecision{}. Se excluyeron temperatura mínima,
+déficit térmico e índice de riesgo porque definen directa o algebraicamente el objetivo.
+La importancia por permutación situó primero a oscilación térmica, punto de rocío y
+temperatura del suelo. El desempeño no convierte el modelo en pronóstico operativo: no se
+ha validado prospectivamente ni contra estaciones, y su propósito es ordenar variables
+asociadas bajo el periodo disponible.
+
+\projectfigure[0.72\textwidth]{figuras/06_validacion_fuentes.png}{Comparación de temperatura mínima entre ERA5-Land y MERRA-2. La línea discontinua representa concordancia perfecta.}{fig:validacion}
+
+% -----------------------------------------------------------------------------
+\section{Capturas del dashboard}
+
+Las capturas documentan la traducción de los resultados a una interfaz navegable. Se
+generan automáticamente con un navegador sin interfaz, resolución 1680$\times$1050 y
+factor de escala 2; por tanto, constituyen evidencia reproducible y no una composición
+manual. Si una imagen no está disponible durante una compilación intermedia, el documento
+mantiene el espacio identificado sin interrumpir el resto del informe.
+
+\projectfigure{../assets/capturas/01_vista_general.png}{Vista general: identificación, filtros, KPI y síntesis del periodo activo.}{fig:captura-general}
+
+La primera vista debe permitir responder P1 sin navegar: explicita denominador, umbral,
+periodo y provincia crítica. Las variaciones se colorean por efecto favorable o adverso,
+no sólo por signo numérico.
+
+\projectfigure{../assets/capturas/02_analisis_descriptivo.png}{Análisis descriptivo: distribuciones, comparación territorial y evolución temporal.}{fig:captura-descriptivo}
+
+El módulo descriptivo vincula cada gráfico con una tabla y una interpretación. Las
+distribuciones muestran la forma y los extremos; el ranking conserva el mismo periodo
+para evitar comparaciones con denominadores distintos.
+
+\projectfigure{../assets/capturas/03_analisis_multidimensional.png}{Análisis multidimensional: correlaciones, PCA, grupos, anomalías y modelo explicativo.}{fig:captura-multidimensional}
+
+La vista avanzada separa exploración, diagnóstico y desempeño. Los controles limitan el
+número de series y mantienen visibles la estandarización, la semilla y los criterios de
+selección de componentes o grupos.
+
+\projectfigure{../assets/capturas/04_analisis_geografico.png}{Análisis geográfico: localización provincial, perfil altitudinal y calendario territorial.}{fig:captura-geografico}
+
+El mapa permite ubicar el riesgo, pero el ranking y las etiquetas aportan la comparación
+cuantitativa que el área y el color por sí solos no garantizan. La vista declara que cada
+provincia está representada por su capital.
+
+\projectfigure{../assets/capturas/05_conclusiones.png}{Conclusiones: respuestas a P1--P6, recomendaciones y limitaciones.}{fig:captura-conclusiones}
+
+Esta página evita que el usuario deba inferir conclusiones sólo a partir de gráficos. Cada
+respuesta cita la magnitud relevante, enlaza el método y separa resultado, decisión y
+limitación.
+
+\projectfigure{../assets/capturas/06_metodologia_datos.png}{Metodología y datos: fuentes, bitácora ETL, diccionario y descargas.}{fig:captura-metodologia}
+
+La trazabilidad muestra el origen de los datos, las conversiones, los controles y la
+validación. Los archivos original, limpio, diccionario y metadatos se mantienen separados
+para que el resultado pueda auditarse.
+
+% -----------------------------------------------------------------------------
+\section{Conclusiones}
+
+\begin{enumerate}
+  \item La incidencia depende del umbral: \TasaHelada{} de las observaciones cumplió la
+        definición meteorológica y \TasaHeladaAgronomica{} la agronómica. Usar sólo
+        0~\textdegree C subrepresenta el conjunto de días térmicamente relevantes para el
+        cultivo por un factor de \FactorAgronomico{}.
+  \item El riesgo no es homogéneo. Carabaya acumuló 1,126 días con helada, mientras Sandia
+        y Yunguyo no registraron ninguno en el punto analizado. Una medida regional uniforme
+        oculta diferencias de más de treinta puntos porcentuales.
+  \item La ventana crítica se concentra entre mayo y agosto; julio alcanzó
+        \TasaJulio{}. Este calendario permite anticipar la asignación de medidas de
+        protección, alertas y asistencia técnica.
+  \item La altitud es relevante pero insuficiente. Yunguyo y San Román tienen elevaciones
+        de malla casi idénticas y resultados opuestos. La menor tasa circunlacustre es
+        consistente con la inercia térmica del Titicaca y exige incorporar ubicación y
+        microclima a la zonificación.
+  \item No se detectó una tendencia monotónica significativa durante 2015--2024: OLS produjo
+        $p=\OLSp{}$ y Mann--Kendall $p=\MKp{}$. El hallazgo correcto es ausencia de evidencia
+        en esta ventana, no demostración de estabilidad climática de largo plazo.
+  \item La estructura multivariante no se reduce sin pérdida a dos ejes. CP1 y CP2 explican
+        \PCADosAcum{}, pero se requieren \PCANoventa{} componentes para 90\,\%. La
+        proyección 2D es útil para explorar, no para sustituir las variables originales.
+  \item K-Means obtuvo tres perfiles con silueta \Silueta{}. La separación débil obliga a
+        usar los grupos como tipología exploratoria y no como límites administrativos o
+        ecológicos rígidos.
+  \item La validación cruzada logró \FuenteConcordancia{} en la clasificación de helada. La
+        señal general es reproducible entre productos, aunque las diferencias de resolución
+        justifican cautela en valores absolutos.
+  \item El producto final es reproducible: conserva original, limpio, diccionario,
+        metadatos, semilla y código de generación. El dashboard no sólo muestra figuras;
+        conecta filtros, resultados, interpretación y descarga del subconjunto analizado.
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\section{Recomendaciones}
+
+\begin{description}[leftmargin=4.0cm,style=nextline,itemsep=0.65em]
+  \item[Gobierno Regional de Puno.] Priorizar seguro agrario, cobertizos, riego preventivo
+        y asistencia en Carabaya, San Antonio de Putina, El Collao y San Román, sin asumir
+        que una misma intervención produce igual beneficio en toda la región.
+  \item[Dirección Regional Agraria.] Elaborar calendarios de siembra y protocolos de
+        alerta por provincia. Intensificar la vigilancia entre mayo y agosto y complementar
+        temperatura prevista con humedad, nubosidad y oscilación térmica.
+  \item[Productores y organizaciones.] Usar el umbral agronómico de 3~\textdegree C como
+        aviso temprano para cultivos sensibles; combinarlo con conocimiento local, estado
+        fenológico y disponibilidad de riego o cobertura.
+  \item[SENAMHI y academia.] Densificar estaciones en fondos de valle, laderas y zonas con
+        mayor discrepancia entre reanálisis. Comparar prospectivamente el índice con
+        observaciones de superficie y eventos reportados.
+  \item[Equipo de desarrollo.] Mantener pruebas automáticas sobre filtros, KPI, agregaciones
+        y modelos; versionar el esquema del dataset y recalcular \texttt{resultados.json}
+        antes de cada publicación.
+  \item[Investigación futura.] Integrar rendimiento y pérdidas económicas, cobertura de
+        suelo, pendiente, distancia al lago y pronósticos de corto plazo. Calibrar los pesos
+        del índice contra daño observado y evaluar validación espacial fuera de las capitales.
+\end{description}
+
+% -----------------------------------------------------------------------------
+\section{Limitaciones}
+
+\begin{enumerate}
+  \item La malla primaria de aproximadamente 9~km suaviza extremos locales y no resuelve
+        fondos de valle ni laderas donde la inversión térmica puede intensificarse.
+  \item Los datos son reanálisis, es decir, combinación de modelo y observaciones
+        asimiladas; no equivalen a una estación meteorológica de superficie.
+  \item Cada provincia se representa mediante la coordenada de su capital. La variabilidad
+        interna de Carabaya, Sandia y otros territorios topográficamente complejos queda
+        submuestreada.
+  \item Diez años permiten estudiar variabilidad interanual, pero no establecer normales
+        climáticas de treinta años ni atribuir tendencias al cambio climático.
+  \item MERRA-2 posee una malla más gruesa. Su correlación moderada con ERA5-Land refleja
+        escalas distintas y limita la comparación de valores diarios puntuales.
+  \item Un registro de precipitación superior a 100~mm fue conservado y marcado; puede
+        influir en análisis sensibles a extremos, aunque es excluible mediante filtro.
+  \item No se dispone de rendimiento agrícola, especie, variedad ni fase fenológica; por
+        ello no se cuantifica daño físico o económico.
+  \item El índice de riesgo usa pesos expertos y límites fijos no calibrados contra pérdidas
+        observadas. Es una herramienta comparativa, no una probabilidad validada de daño.
+  \item El Random Forest es explicativo y fue evaluado dentro del mismo periodo. La alta
+        AUC no demuestra capacidad de pronóstico futuro ni transferencia a otros lugares.
+  \item Las asociaciones y la comparación circunlacustre son observacionales. No permiten
+        inferir causalidad aislada ni separar todos los mecanismos topográficos y atmosféricos.
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\section{Referencias}
+
+\begin{enumerate}[label={},leftmargin=1.2em,itemindent=-1.2em,itemsep=0.65em]
+  \item Breiman, L. (2001). Random forests. \emph{Machine Learning, 45}(1), 5--32.
+        \url{https://doi.org/10.1023/A:1010933404324}
+  \item Cleveland, W. S., y McGill, R. (1984). Graphical perception: Theory,
+        experimentation, and application to the development of graphical methods.
+        \emph{Journal of the American Statistical Association, 79}(387), 531--554.
+  \item Cohen, J. (1988). \emph{Statistical power analysis for the behavioral sciences}
+        (2.a ed.). Lawrence Erlbaum Associates.
+  \item Gelaro, R., et al. (2017). The Modern-Era Retrospective Analysis for Research and
+        Applications, Version 2 (MERRA-2). \emph{Journal of Climate, 30}(14), 5419--5454.
+        \url{https://doi.org/10.1175/JCLI-D-16-0758.1}
+  \item Hersbach, H., et al. (2020). The ERA5 global reanalysis. \emph{Quarterly Journal of
+        the Royal Meteorological Society, 146}(730), 1999--2049.
+        \url{https://doi.org/10.1002/qj.3803}
+  \item Iglewicz, B., y Hoaglin, D. C. (1993). \emph{How to detect and handle outliers}.
+        ASQC Quality Press.
+  \item Jolliffe, I. T., y Cadima, J. (2016). Principal component analysis: A review and
+        recent developments. \emph{Philosophical Transactions of the Royal Society A,
+        374}(2065). \url{https://doi.org/10.1098/rsta.2015.0202}
+  \item Kendall, M. G. (1975). \emph{Rank correlation methods} (4.a ed.). Charles Griffin.
+  \item Liu, F. T., Ting, K. M., y Zhou, Z.-H. (2008). Isolation forest. En \emph{2008
+        Eighth IEEE International Conference on Data Mining} (pp. 413--422).
+        \url{https://doi.org/10.1109/ICDM.2008.17}
+  \item Machado, G. M., Oliveira, M. M., y Fernandes, L. A. F. (2009). A
+        physiologically-based model for simulation of color vision deficiency.
+        \emph{IEEE Transactions on Visualization and Computer Graphics, 15}(6), 1291--1298.
+  \item Mann, H. B. (1945). Nonparametric tests against trend. \emph{Econometrica, 13}(3),
+        245--259.
+  \item Muñoz-Sabater, J., et al. (2021). ERA5-Land: A state-of-the-art global reanalysis
+        dataset for land applications. \emph{Earth System Science Data, 13}(9), 4349--4383.
+        \url{https://doi.org/10.5194/essd-13-4349-2021}
+  \item Munzner, T. (2014). \emph{Visualization analysis and design}. CRC Press.
+  \item NASA Langley Research Center. (2025). \emph{NASA Prediction Of Worldwide Energy
+        Resources (POWER) Project: Daily agroclimatology data} (Version 2.9.6)
+        [Conjunto de datos]. \url{https://power.larc.nasa.gov/}
+  \item Pulgar Vidal, J. (1981). \emph{Geografía del Perú: Las ocho regiones naturales}
+        (8.a ed.). Editorial Universo.
+  \item Rousseeuw, P. J. (1987). Silhouettes: A graphical aid to the interpretation and
+        validation of cluster analysis. \emph{Journal of Computational and Applied
+        Mathematics, 20}, 53--65.
+  \item Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall's tau.
+        \emph{Journal of the American Statistical Association, 63}(324), 1379--1389.
+  \item Servicio Nacional de Meteorología e Hidrología del Perú. (2024). \emph{Monitoreo y
+        pronóstico de heladas}. \url{https://www.senamhi.gob.pe/}
+  \item Tukey, J. W. (1977). \emph{Exploratory data analysis}. Addison-Wesley.
+  \item Universidad Nacional del Altiplano. (2026). \emph{Proyecto final: Dashboard
+        interactivo de visualización de datos} [Consigna del curso SIS328].
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+\clearpage
+\appendix
+\section{Enlaces y reproducibilidad}
+
+\begin{description}[leftmargin=4.1cm,style=nextline]
+  \item[Repositorio.] \url{https://github.com/jhonaracayo/dashboard-heladas-puno}
+  \item[Dashboard publicado.] \url{https://dashboard-heladas-puno.streamlit.app}
+  \item[Fuente primaria.] \url{https://archive-api.open-meteo.com/v1/archive}
+  \item[Fuente secundaria.] \url{https://power.larc.nasa.gov/api/temporal/daily/point}
+\end{description}
+
+Los comandos mínimos de reproducción, ejecutados desde la raíz del repositorio, son:
+
+\begin{verbatim}
+python scripts/01_descargar_datos.py
+python scripts/02_procesar_datos.py
+python report/generar_figuras_informe.py
+streamlit run app.py
+\end{verbatim}
+
+La descarga no debe repetirse para reproducir el informe mientras se conserven los
+originales. La semilla global es 42. El archivo \texttt{requirements.txt} fija las versiones
+mínimas verificadas; \texttt{metadata.json} registra cobertura, estructura y cada etapa del
+pipeline.
+
+\section{Bitácora íntegra del pipeline}
+
+\input{bitacora_etl.tex}
+
+\section{Diccionario completo de variables}
+
+El diccionario siguiente se genera desde \texttt{data/diccionario\_datos.csv}. Para cada
+campo se indica etiqueta, unidad, procedencia y definición operativa; por ello funciona
+como contrato semántico entre adquisición, análisis y visualización.
+
+\small
+\input{diccionario_variables.tex}
+\normalsize
+
+\section{Aportes del equipo}
+
+\begin{table}[H]
+\centering
+\caption{Responsabilidades y contribuciones de los integrantes}
+\label{tab:aportes}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{4.0cm}p{3.3cm}X}
+\toprule
+Integrante & Rol principal & Aportes \\
+\midrule
+Aracayo Mamani, Jhon Marco & Arquitectura de software y dashboard & Estructura por capas, integración de Streamlit, navegación, estado de filtros y componentes reutilizables. \\
+Canaza Paucara, Juan Diego & Ingeniería de datos y análisis multivariante & Adquisición, pipeline de limpieza, integración MERRA-2, PCA, agrupamiento, anomalías y reproducibilidad. \\
+Luque Pacheco, Angie Tatiana & Visualización, estadística y redacción & Diseño visual accesible, selección y justificación de gráficos, análisis de tendencia, interpretación e informe técnico. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La participación se distribuye por especialidad, pero los tres integrantes comparten la
+responsabilidad de explicar el problema, la preparación de datos, el código, las
+visualizaciones y las conclusiones durante la sustentación.
+
+\end{document}

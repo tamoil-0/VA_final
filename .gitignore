@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+
+# Jupyter y pruebas
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Configuración local y sistema operativo
+.streamlit/secrets.toml
+.DS_Store
+Thumbs.db
+
+# Artefactos temporales de LaTeX; se conserva el PDF final del informe.
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Copia de compilación; el entregable se conserva en informe/.
+report/informe_tecnico.pdf
+
+# Los CSV de data/, los recursos de assets/ y los PDF de informe/ son
+# entregables académicos reproducibles y se versionan deliberadamente.
+
+# Material de referencia e instrucciones internas: no forma parte de la entrega.
+ensayo_VA.pdf
+TRASPASO_ESTADO_PROYECTO.txt

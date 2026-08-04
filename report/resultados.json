@@ -1,0 +1,886 @@
+{
+  "generado_desde": "data/datos_limpios.csv",
+  "semilla": 42,
+  "estructura": {
+    "registros": 47489,
+    "variables": 52,
+    "provincias": 13,
+    "dias": 3653,
+    "inicio": "2015-01-01T00:00:00",
+    "fin": "2024-12-31T00:00:00"
+  },
+  "resumen": {
+    "heladas_meteorologicas": 7620,
+    "tasa_helada_meteorologica_pct": 16.045821137526588,
+    "heladas_agronomicas": 18877,
+    "tasa_helada_agronomica_pct": 39.75025795447367,
+    "factor_umbral_agronomico": 2.4772965879265088,
+    "temperatura_minima_media_c": 3.7929478405525487,
+    "temperatura_minima_absoluta_c": -9.1,
+    "minima_absoluta_provincia": "Carabaya",
+    "minima_absoluta_fecha": "2018-07-23T00:00:00",
+    "indice_riesgo_medio": 31.711497609972838,
+    "indice_riesgo_p95": 64.03
+  },
+  "intensidad": {
+    "Sin helada": 39869,
+    "Ligera": 5180,
+    "Moderada": 2090,
+    "Severa": 320,
+    "Extrema": 30
+  },
+  "niveles_riesgo": {
+    "Bajo": 22411,
+    "Moderado": 10994,
+    "Alto": 8478,
+    "Muy alto": 4560,
+    "Crítico": 1046
+  },
+  "provincias": [
+    {
+      "provincia": "Carabaya",
+      "dias_helada": 1126,
+      "tasa_helada": 30.82,
+      "tmin_media": 0.96,
+      "tmin_absoluta": -9.1,
+      "riesgo_medio": 28.58,
+      "altitud": 4321.0
+    },
+    {
+      "provincia": "San Antonio de Putina",
+      "dias_helada": 976,
+      "tasa_helada": 26.72,
+      "tmin_media": 2.24,
+      "tmin_absoluta": -7.0,
+      "riesgo_medio": 33.84,
+      "altitud": 3867.0
+    },
+    {
+      "provincia": "El Collao",
+      "dias_helada": 962,
+      "tasa_helada": 26.33,
+      "tmin_media": 2.85,
+      "tmin_absoluta": -7.5,
+      "riesgo_medio": 35.62,
+      "altitud": 3835.0
+    },
+    {
+      "provincia": "San Román",
+      "dias_helada": 930,
+      "tasa_helada": 25.46,
+      "tmin_media": 2.53,
+      "tmin_absoluta": -6.9,
+      "riesgo_medio": 37.17,
+      "altitud": 3828.0
+    },
+    {
+      "provincia": "Azángaro",
+      "dias_helada": 830,
+      "tasa_helada": 22.72,
+      "tmin_media": 2.45,
+      "tmin_absoluta": -6.1,
+      "riesgo_medio": 34.19,
+      "altitud": 3861.0
+    },
+    {
+      "provincia": "Lampa",
+      "dias_helada": 799,
+      "tasa_helada": 21.87,
+      "tmin_media": 2.72,
+      "tmin_absoluta": -6.0,
+      "riesgo_medio": 35.56,
+      "altitud": 3868.0
+    },
+    {
+      "provincia": "Puno",
+      "dias_helada": 683,
+      "tasa_helada": 18.7,
+      "tmin_media": 3.41,
+      "tmin_absoluta": -5.5,
+      "riesgo_medio": 34.38,
+      "altitud": 3819.0
+    },
+    {
+      "provincia": "Melgar",
+      "dias_helada": 460,
+      "tasa_helada": 12.59,
+      "tmin_media": 2.82,
+      "tmin_absoluta": -6.1,
+      "riesgo_medio": 33.86,
+      "altitud": 3912.0
+    },
+    {
+      "provincia": "Chucuito",
+      "dias_helada": 406,
+      "tasa_helada": 11.11,
+      "tmin_media": 4.1,
+      "tmin_absoluta": -4.8,
+      "riesgo_medio": 32.02,
+      "altitud": 3872.0
+    },
+    {
+      "provincia": "Huancané",
+      "dias_helada": 365,
+      "tasa_helada": 9.99,
+      "tmin_media": 3.93,
+      "tmin_absoluta": -4.1,
+      "riesgo_medio": 30.63,
+      "altitud": 3838.0
+    },
+    {
+      "provincia": "Moho",
+      "dias_helada": 83,
+      "tasa_helada": 2.27,
+      "tmin_media": 4.05,
+      "tmin_absoluta": -2.2,
+      "riesgo_medio": 30.31,
+      "altitud": 4043.0
+    },
+    {
+      "provincia": "Sandia",
+      "dias_helada": 0,
+      "tasa_helada": 0.0,
+      "tmin_media": 10.1,
+      "tmin_absoluta": 1.7,
+      "riesgo_medio": 17.0,
+      "altitud": 2294.0
+    },
+    {
+      "provincia": "Yunguyo",
+      "dias_helada": 0,
+      "tasa_helada": 0.0,
+      "tmin_media": 7.15,
+      "tmin_absoluta": 0.9,
+      "riesgo_medio": 29.08,
+      "altitud": 3825.0
+    }
+  ],
+  "meses": [
+    {
+      "mes": 1,
+      "mes_abrev": "Ene",
+      "dias_helada": 24,
+      "tasa_helada": 0.6,
+      "tmin_media": 5.83,
+      "precipitacion_media": 7.04
+    },
+    {
+      "mes": 2,
+      "mes_abrev": "Feb",
+      "dias_helada": 23,
+      "tasa_helada": 0.63,
+      "tmin_media": 6.02,
+      "precipitacion_media": 8.21
+    },
+    {
+      "mes": 3,
+      "mes_abrev": "Mar",
+      "dias_helada": 23,
+      "tasa_helada": 0.57,
+      "tmin_media": 5.71,
+      "precipitacion_media": 6.22
+    },
+    {
+      "mes": 4,
+      "mes_abrev": "Abr",
+      "dias_helada": 242,
+      "tasa_helada": 6.21,
+      "tmin_media": 4.14,
+      "precipitacion_media": 3.45
+    },
+    {
+      "mes": 5,
+      "mes_abrev": "May",
+      "dias_helada": 1116,
+      "tasa_helada": 27.69,
+      "tmin_media": 2.19,
+      "precipitacion_media": 1.63
+    },
+    {
+      "mes": 6,
+      "mes_abrev": "Jun",
+      "dias_helada": 1850,
+      "tasa_helada": 47.44,
+      "tmin_media": 0.89,
+      "precipitacion_media": 0.79
+    },
+    {
+      "mes": 7,
+      "mes_abrev": "Jul",
+      "dias_helada": 2012,
+      "tasa_helada": 49.93,
+      "tmin_media": 0.66,
+      "precipitacion_media": 0.63
+    },
+    {
+      "mes": 8,
+      "mes_abrev": "Ago",
+      "dias_helada": 1511,
+      "tasa_helada": 37.49,
+      "tmin_media": 1.37,
+      "precipitacion_media": 0.92
+    },
+    {
+      "mes": 9,
+      "mes_abrev": "Set",
+      "dias_helada": 467,
+      "tasa_helada": 11.97,
+      "tmin_media": 3.25,
+      "precipitacion_media": 1.83
+    },
+    {
+      "mes": 10,
+      "mes_abrev": "Oct",
+      "dias_helada": 252,
+      "tasa_helada": 6.25,
+      "tmin_media": 4.3,
+      "precipitacion_media": 3.03
+    },
+    {
+      "mes": 11,
+      "mes_abrev": "Nov",
+      "dias_helada": 58,
+      "tasa_helada": 1.49,
+      "tmin_media": 5.48,
+      "precipitacion_media": 3.77
+    },
+    {
+      "mes": 12,
+      "mes_abrev": "Dic",
+      "dias_helada": 42,
+      "tasa_helada": 1.04,
+      "tmin_media": 5.82,
+      "precipitacion_media": 6.19
+    }
+  ],
+  "anios": [
+    {
+      "anio": 2015,
+      "heladas_por_provincia": 66.5,
+      "tasa_helada": 18.23,
+      "tmin_media": 3.44,
+      "tmin_absoluta": -7.2
+    },
+    {
+      "anio": 2016,
+      "heladas_por_provincia": 65.8,
+      "tasa_helada": 17.97,
+      "tmin_media": 3.72,
+      "tmin_absoluta": -8.4
+    },
+    {
+      "anio": 2017,
+      "heladas_por_provincia": 51.2,
+      "tasa_helada": 14.01,
+      "tmin_media": 3.88,
+      "tmin_absoluta": -7.8
+    },
+    {
+      "anio": 2018,
+      "heladas_por_provincia": 65.4,
+      "tasa_helada": 17.91,
+      "tmin_media": 3.58,
+      "tmin_absoluta": -9.1
+    },
+    {
+      "anio": 2019,
+      "heladas_por_provincia": 58.7,
+      "tasa_helada": 16.08,
+      "tmin_media": 3.85,
+      "tmin_absoluta": -6.3
+    },
+    {
+      "anio": 2020,
+      "heladas_por_provincia": 54.1,
+      "tasa_helada": 14.78,
+      "tmin_media": 3.91,
+      "tmin_absoluta": -5.9
+    },
+    {
+      "anio": 2021,
+      "heladas_por_provincia": 58.5,
+      "tasa_helada": 16.02,
+      "tmin_media": 3.63,
+      "tmin_absoluta": -8.4
+    },
+    {
+      "anio": 2022,
+      "heladas_por_provincia": 64.9,
+      "tasa_helada": 17.79,
+      "tmin_media": 3.42,
+      "tmin_absoluta": -5.5
+    },
+    {
+      "anio": 2023,
+      "heladas_por_provincia": 60.4,
+      "tasa_helada": 16.54,
+      "tmin_media": 3.91,
+      "tmin_absoluta": -5.6
+    },
+    {
+      "anio": 2024,
+      "heladas_por_provincia": 40.8,
+      "tasa_helada": 11.14,
+      "tmin_media": 4.59,
+      "tmin_absoluta": -6.2
+    }
+  ],
+  "tendencia": {
+    "ols_pendiente_dias_por_anio": -1.3690909090909094,
+    "ols_r2": 0.2597744900002153,
+    "ols_p": 0.13235195061483082,
+    "ols_ic95": [
+      -3.2533089097708494,
+      0.5151270915890307
+    ],
+    "mann_kendall_s": -19.0,
+    "mann_kendall_tau": -0.4222222222222222,
+    "mann_kendall_p": 0.10740463633025366,
+    "sen_dias_por_anio": -1.0000000000000013
+  },
+  "territorio": {
+    "altitud_tasa_r": 0.48519061535515295,
+    "altitud_tasa_p": 0.09283430708068591,
+    "pendiente_tasa_por_100m": 1.1153704834354634,
+    "circunlacustre_tasa_pct": 11.40158773610731,
+    "circunlacustre_tmin_c": 4.2481522036682176,
+    "resto_tasa_pct": 20.026592624457393,
+    "resto_tmin_c": 3.4027726721676896
+  },
+  "correlaciones_con_tmin": {
+    "altitud": {
+      "pearson": -0.5514533534801929,
+      "spearman": -0.3863913784866354
+    },
+    "humedad_relativa": {
+      "pearson": 0.5362972916197656,
+      "spearman": 0.5026236885422208
+    },
+    "nubosidad": {
+      "pearson": 0.5611916669140214,
+      "spearman": 0.5502519169056506
+    },
+    "radiacion_solar": {
+      "pearson": -0.1048056199627171,
+      "spearman": -0.025663128800850407
+    },
+    "precipitacion": {
+      "pearson": 0.43689974237528617,
+      "spearman": 0.5567793565971166
+    },
+    "velocidad_viento": {
+      "pearson": -0.20333160923217586,
+      "spearman": -0.1771458001594375
+    },
+    "temperatura_suelo": {
+      "pearson": 0.6576385786225989,
+      "spearman": 0.6791866408937092
+    }
+  },
+  "validacion_cruzada": {
+    "n_pares": 47489,
+    "correlacion": 0.6106,
+    "sesgo_medio": 1.288,
+    "error_absoluto_medio": 2.543,
+    "raiz_error_cuadratico_medio": 3.233,
+    "concordancia_helada": 83.06
+  },
+  "pca": {
+    "varianza_explicada_pct": [
+      48.196168681070404,
+      20.460305735191145,
+      9.294420437937841,
+      7.175190767698175,
+      4.900931332036622,
+      3.920066096047891,
+      2.8085481830132037,
+      1.8075127391816468,
+      0.8822731026517329,
+      0.3797965885819418,
+      0.10715719963285406,
+      0.06762913695653512
+    ],
+    "varianza_acumulada_pct": [
+      48.196168681070404,
+      68.65647441626155,
+      77.95089485419939,
+      85.12608562189756,
+      90.02701695393418,
+      93.94708304998207,
+      96.75563123299527,
+      98.56314397217693,
+      99.44541707482865,
+      99.8252136634106,
+      99.93237086304345,
+      99.99999999999999
+    ],
+    "componentes_90_pct": 5,
+    "variables_dominantes": {
+      "CP1": [
+        [
+          "humedad_relativa",
+          0.3818198198269803
+        ],
+        [
+          "punto_rocio",
+          0.3798143358413179
+        ],
+        [
+          "oscilacion_termica",
+          -0.3409835247412477
+        ],
+        [
+          "humedad_suelo",
+          0.33984532244289056
+        ]
+      ],
+      "CP2": [
+        [
+          "temperatura_suelo",
+          0.5786889882298863
+        ],
+        [
+          "evapotranspiracion",
+          0.4866877644569401
+        ],
+        [
+          "radiacion_solar",
+          0.4685316564113068
+        ],
+        [
+          "temperatura_minima",
+          0.3397982996821443
+        ]
+      ],
+      "CP3": [
+        [
+          "altitud",
+          0.7913461121680284
+        ],
+        [
+          "nubosidad",
+          0.34795953739602864
+        ],
+        [
+          "humedad_suelo",
+          0.25564311578025833
+        ],
+        [
+          "temperatura_minima",
+          -0.2343414508238101
+        ]
+      ]
+    }
+  },
+  "kmeans": {
+    "k": 3,
+    "silueta": 0.30643417749135987,
+    "calidad": "estructura débil",
+    "diagnostico": [
+      {
+        "k": 2,
+        "inercia": 40273.05480772222,
+        "silueta": 0.2933777538694698
+      },
+      {
+        "k": 3,
+        "inercia": 33399.72053879128,
+        "silueta": 0.30634460877503256
+      },
+      {
+        "k": 4,
+        "inercia": 27230.993588017333,
+        "silueta": 0.2980746395670187
+      }
+    ],
+    "perfiles": [
+      {
+        "grupo": 0,
+        "n_dias": 19896,
+        "tmin_media": 1.43,
+        "tmax_media": 15.28,
+        "oscilacion_media": 13.85,
+        "precipitacion_media": 0.32,
+        "humedad_media": 50.05,
+        "nubosidad_media": 35.6,
+        "radiacion_media": 24.32,
+        "viento_medio": 2.2,
+        "altitud_media": 3880.62,
+        "tasa_helada": 34.4,
+        "riesgo_medio": 47.44,
+        "temporada_dominante": "Seca",
+        "provincias_frecuentes": "El Collao, San Román, Puno",
+        "etiqueta": "Helada frecuente · seco · amplitud moderada"
+      },
+      {
+        "grupo": 1,
+        "n_dias": 23939,
+        "tmin_media": 4.79,
+        "tmax_media": 13.14,
+        "oscilacion_media": 8.35,
+        "precipitacion_media": 5.6,
+        "humedad_media": 75.51,
+        "nubosidad_media": 85.04,
+        "radiacion_media": 22.3,
+        "viento_medio": 1.75,
+        "altitud_media": 3929.69,
+        "tasa_helada": 3.2,
+        "riesgo_medio": 20.89,
+        "temporada_dominante": "Lluviosa",
+        "provincias_frecuentes": "Carabaya, Yunguyo, Chucuito",
+        "etiqueta": "Libre de helada · húmedo · amplitud moderada"
+      },
+      {
+        "grupo": 2,
+        "n_dias": 3654,
+        "tmin_media": 10.1,
+        "tmax_media": 18.19,
+        "oscilacion_media": 8.09,
+        "precipitacion_media": 8.63,
+        "humedad_media": 88.34,
+        "nubosidad_media": 81.83,
+        "radiacion_media": 17.26,
+        "viento_medio": 1.14,
+        "altitud_media": 2294.43,
+        "tasa_helada": 0.0,
+        "riesgo_medio": 17.0,
+        "temporada_dominante": "Seca",
+        "provincias_frecuentes": "Sandia, San Antonio de Putina",
+        "etiqueta": "Libre de helada · húmedo · amplitud moderada"
+      }
+    ]
+  },
+  "anomalias": {
+    "cantidad": 475,
+    "porcentaje": 1.0002316325885994,
+    "extremos": [
+      {
+        "fecha": "2024-03-22T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.7,
+        "temperatura_maxima": 16.7,
+        "oscilacion_termica": 3.0,
+        "precipitacion": 70.5,
+        "humedad_relativa": 96,
+        "nubosidad": 100,
+        "radiacion_solar": 3.91,
+        "velocidad_viento": 0.75,
+        "indice_riesgo_helada": 10.4,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6828
+      },
+      {
+        "fecha": "2024-01-25T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.3,
+        "temperatura_maxima": 17.5,
+        "oscilacion_termica": 4.2,
+        "precipitacion": 46.5,
+        "humedad_relativa": 100,
+        "nubosidad": 100,
+        "radiacion_solar": 6.4,
+        "velocidad_viento": 0.9722222,
+        "indice_riesgo_helada": 8.78,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6665
+      },
+      {
+        "fecha": "2020-02-01T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.3,
+        "temperatura_maxima": 16.9,
+        "oscilacion_termica": 3.6,
+        "precipitacion": 48.5,
+        "humedad_relativa": 96,
+        "nubosidad": 97,
+        "radiacion_solar": 5.11,
+        "velocidad_viento": 0.6944444,
+        "indice_riesgo_helada": 11.22,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6656
+      },
+      {
+        "fecha": "2015-11-30T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.0,
+        "temperatura_maxima": 14.7,
+        "oscilacion_termica": 1.7,
+        "precipitacion": 38.2,
+        "humedad_relativa": 98,
+        "nubosidad": 100,
+        "radiacion_solar": 5.11,
+        "velocidad_viento": 0.6666667,
+        "indice_riesgo_helada": 9.83,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6634
+      },
+      {
+        "fecha": "2019-11-28T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.0,
+        "temperatura_maxima": 16.9,
+        "oscilacion_termica": 3.9,
+        "precipitacion": 56.8,
+        "humedad_relativa": 98,
+        "nubosidad": 100,
+        "radiacion_solar": 8.45,
+        "velocidad_viento": 0.8333333,
+        "indice_riesgo_helada": 9.63,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6621
+      },
+      {
+        "fecha": "2023-03-09T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.3,
+        "temperatura_maxima": 16.5,
+        "oscilacion_termica": 3.2,
+        "precipitacion": 49.1,
+        "humedad_relativa": 97,
+        "nubosidad": 100,
+        "radiacion_solar": 5.33,
+        "velocidad_viento": 1.0,
+        "indice_riesgo_helada": 9.75,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6606
+      },
+      {
+        "fecha": "2021-02-10T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.3,
+        "temperatura_maxima": 16.0,
+        "oscilacion_termica": 2.7,
+        "precipitacion": 60.0,
+        "humedad_relativa": 99,
+        "nubosidad": 100,
+        "radiacion_solar": 7.29,
+        "velocidad_viento": 1.1388888,
+        "indice_riesgo_helada": 8.91,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6598
+      },
+      {
+        "fecha": "2024-12-07T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.7,
+        "temperatura_maxima": 17.9,
+        "oscilacion_termica": 4.2,
+        "precipitacion": 38.6,
+        "humedad_relativa": 97,
+        "nubosidad": 100,
+        "radiacion_solar": 9.82,
+        "velocidad_viento": 0.6944444,
+        "indice_riesgo_helada": 10.13,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6592
+      },
+      {
+        "fecha": "2024-02-12T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 14.3,
+        "temperatura_maxima": 16.4,
+        "oscilacion_termica": 2.1,
+        "precipitacion": 25.2,
+        "humedad_relativa": 98,
+        "nubosidad": 100,
+        "radiacion_solar": 7.6,
+        "velocidad_viento": 0.7777778,
+        "indice_riesgo_helada": 9.69,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6588
+      },
+      {
+        "fecha": "2018-11-24T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 12.7,
+        "temperatura_maxima": 16.8,
+        "oscilacion_termica": 4.1,
+        "precipitacion": 56.9,
+        "humedad_relativa": 96,
+        "nubosidad": 100,
+        "radiacion_solar": 5.24,
+        "velocidad_viento": 0.7777778,
+        "indice_riesgo_helada": 10.36,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6581
+      },
+      {
+        "fecha": "2017-08-17T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 11.9,
+        "temperatura_maxima": 14.6,
+        "oscilacion_termica": 2.7,
+        "precipitacion": 41.8,
+        "humedad_relativa": 98,
+        "nubosidad": 99,
+        "radiacion_solar": 6.01,
+        "velocidad_viento": 0.7222222,
+        "indice_riesgo_helada": 10.01,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6579
+      },
+      {
+        "fecha": "2024-01-03T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.3,
+        "temperatura_maxima": 27.3,
+        "oscilacion_termica": 14.0,
+        "precipitacion": 39.2,
+        "humedad_relativa": 91,
+        "nubosidad": 100,
+        "radiacion_solar": 10.62,
+        "velocidad_viento": 0.8611111,
+        "indice_riesgo_helada": 11.92,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6567
+      },
+      {
+        "fecha": "2019-01-30T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.0,
+        "temperatura_maxima": 16.3,
+        "oscilacion_termica": 3.3,
+        "precipitacion": 41.6,
+        "humedad_relativa": 98,
+        "nubosidad": 100,
+        "radiacion_solar": 5.39,
+        "velocidad_viento": 0.8333333,
+        "indice_riesgo_helada": 9.63,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6565
+      },
+      {
+        "fecha": "2016-01-31T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.4,
+        "temperatura_maxima": 16.5,
+        "oscilacion_termica": 3.1,
+        "precipitacion": 38.9,
+        "humedad_relativa": 97,
+        "nubosidad": 100,
+        "radiacion_solar": 8.98,
+        "velocidad_viento": 0.8611111,
+        "indice_riesgo_helada": 9.92,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6559
+      },
+      {
+        "fecha": "2024-02-20T00:00:00",
+        "provincia": "Sandia",
+        "temperatura_minima": 13.9,
+        "temperatura_maxima": 18.2,
+        "oscilacion_termica": 4.3,
+        "precipitacion": 27.6,
+        "humedad_relativa": 95,
+        "nubosidad": 100,
+        "radiacion_solar": 7.98,
+        "velocidad_viento": 0.6388889,
+        "indice_riesgo_helada": 10.87,
+        "intensidad_helada": "Sin helada",
+        "precipitacion_sospechosa": false,
+        "puntuacion_anomalia": -0.6558
+      }
+    ]
+  },
+  "random_forest": {
+    "roc_auc": 0.9903494105755752,
+    "precision_media": 0.9482264569757457,
+    "exactitud": 0.9523288132738146,
+    "sensibilidad": 0.9447264523406655,
+    "precision": 0.781614559029398,
+    "entrenamiento": 35616,
+    "prueba": 11873,
+    "matriz_confusion": [
+      [
+        9632,
+        468
+      ],
+      [
+        98,
+        1675
+      ]
+    ],
+    "importancias": [
+      {
+        "variable": "oscilacion_termica",
+        "importancia": 0.09308936241893376,
+        "desviacion": 0.0018330972015170503,
+        "etiqueta": "Oscilación térmica"
+      },
+      {
+        "variable": "punto_rocio",
+        "importancia": 0.05654636570369752,
+        "desviacion": 0.0022127778949069103,
+        "etiqueta": "Punto de rocío"
+      },
+      {
+        "variable": "temperatura_suelo",
+        "importancia": 0.05519877031921169,
+        "desviacion": 0.0023042569259035355,
+        "etiqueta": "Temperatura del suelo"
+      },
+      {
+        "variable": "humedad_relativa",
+        "importancia": 0.013970774025098998,
+        "desviacion": 0.00045636563635336196,
+        "etiqueta": "Humedad relativa"
+      },
+      {
+        "variable": "radiacion_solar",
+        "importancia": 0.0037585277520424953,
+        "desviacion": 0.0005489769992623635,
+        "etiqueta": "Radiación solar"
+      },
+      {
+        "variable": "humedad_suelo",
+        "importancia": 0.001831887475785443,
+        "desviacion": 0.0006424722606920221,
+        "etiqueta": "Humedad del suelo"
+      },
+      {
+        "variable": "altitud",
+        "importancia": 0.0016950223195486003,
+        "desviacion": 0.0007917094883567937,
+        "etiqueta": "Altitud"
+      },
+      {
+        "variable": "velocidad_viento",
+        "importancia": 0.00092647182683403,
+        "desviacion": 0.0001975244571642826,
+        "etiqueta": "Velocidad del viento"
+      },
+      {
+        "variable": "precipitacion",
+        "importancia": 0.0002842584014150218,
+        "desviacion": 0.00033935739622014007,
+        "etiqueta": "Precipitación"
+      },
+      {
+        "variable": "evapotranspiracion",
+        "importancia": 0.00024214604564982978,
+        "desviacion": 0.000780428990282447,
+        "etiqueta": "Evapotranspiración de referencia"
+      },
+      {
+        "variable": "nubosidad",
+        "importancia": -0.00203192116566997,
+        "desviacion": 0.0005165205328070368,
+        "etiqueta": "Nubosidad"
+      }
+    ]
+  }
+}

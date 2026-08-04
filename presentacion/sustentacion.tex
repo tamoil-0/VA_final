@@ -1,0 +1,579 @@
+% =====================================================================
+%  Sustentación del proyecto final — Visualización de Datos (SIS328)
+%  Dashboard de riesgo agroclimático por heladas en la región Puno
+%  Universidad Nacional del Altiplano — E.P. Ingeniería de Sistemas
+%
+%  Duración prevista: 10 min de exposición + 5 min de preguntas.
+%  El reparto por integrante está anotado en cada sección, de modo que
+%  los tres participen tal como exige la consigna.
+%
+%  Compilación:  pdflatex -interaction=nonstopmode sustentacion.tex  (x2)
+% =====================================================================
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% ---------------------------------------------------------------------
+%  Identidad visual: la misma paleta pastel verificada del dashboard.
+% ---------------------------------------------------------------------
+\definecolor{pnBrand}{HTML}{DB8963}     % naranja pastel — principal
+\definecolor{pnBrandDark}{HTML}{BB7350}
+\definecolor{pnAccent}{HTML}{578BC5}    % azul pastel — secundario
+\definecolor{pnAccentSoft}{HTML}{E7F1FE}
+\definecolor{pnBrandSoft}{HTML}{FEECE4}
+\definecolor{pnInk}{HTML}{111827}
+\definecolor{pnInkSoft}{HTML}{5A6373}
+\definecolor{pnSurface}{HTML}{F7F8FA}
+\definecolor{pnCritical}{HTML}{D03B3B}
+\definecolor{pnGood}{HTML}{0CA30C}
+
+\usetheme{default}
+\usecolortheme{default}
+\setbeamercolor{structure}{fg=pnAccent}
+\setbeamercolor{normal text}{fg=pnInk}
+\setbeamercolor{frametitle}{fg=pnInk,bg=white}
+\setbeamercolor{title}{fg=pnAccent}
+\setbeamercolor{block title}{fg=white,bg=pnAccent}
+\setbeamercolor{block body}{bg=pnAccentSoft}
+\setbeamercolor{alerted text}{fg=pnBrandDark}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{pnBrand}\rule[0.35ex]{0.6ex}{0.6ex}}
+\setbeamertemplate{itemize subitem}{\color{pnAccent}\rule[0.35ex]{0.45ex}{0.45ex}}
+
+% Filete de marca bajo el título de cada diapositiva.
+\setbeamertemplate{frametitle}{%
+  \vspace{0.5em}%
+  \hspace{0.6em}\insertframetitle%
+  \par\hspace{0.6em}%
+  \textcolor{pnBrand}{\rule{0.30\paperwidth}{1.2pt}}%
+  \vspace{-0.4em}%
+}
+
+% Pie: identificación institucional y numeración.
+\setbeamertemplate{footline}{%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.72\paperwidth,ht=2.4ex,dp=1.2ex,leftskip=.6em]{}%
+      \tiny\textcolor{pnInkSoft}{UNAP · E.P. Ingeniería de Sistemas · Visualización de Datos (SIS328)}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.28\paperwidth,ht=2.4ex,dp=1.2ex,rightskip=.6em]{}%
+      \hfill\tiny\textcolor{pnInkSoft}{\insertframenumber\,/\,\inserttotalframenumber}%
+    \end{beamercolorbox}%
+  }%
+}
+
+% Atajo para las etiquetas de reparto de la exposición.
+\newcommand{\ponente}[1]{%
+  \begin{flushright}\tiny\textcolor{pnBrandDark}{\textbf{Expone:} #1}\end{flushright}%
+  \vspace{-0.9em}%
+}
+
+% Tarjeta de cifra destacada.
+\newcommand{\cifra}[2]{%
+  \begin{minipage}[t]{0.30\textwidth}
+    \centering
+    \colorbox{pnBrandSoft}{\parbox[c][2.5cm][c]{0.92\linewidth}{%
+      \centering
+      {\LARGE\bfseries\textcolor{pnBrandDark}{#1}}\\[0.35em]
+      {\scriptsize\textcolor{pnInkSoft}{#2}}%
+    }}
+  \end{minipage}%
+}
+
+\title{Riesgo agroclimático por heladas en la región Puno}
+\subtitle{Dashboard interactivo para el análisis y la visualización de datos\\orientado a la toma de decisiones}
+\date{Puno — Perú · 2026}
+
+\begin{document}
+
+% =====================================================================
+\begin{frame}[plain]
+  \begin{center}
+    \begin{minipage}{0.2\textwidth}
+      \IfFileExists{../assets/logos/logo_unap.png}{%
+        \includegraphics[height=1.9cm]{../assets/logos/logo_unap.png}}{}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+      \centering
+      {\scriptsize\bfseries\textcolor{pnAccent}{UNIVERSIDAD NACIONAL DEL ALTIPLANO}}\\[0.15em]
+      {\tiny\textcolor{pnInkSoft}{Facultad de Ingeniería Mecánica Eléctrica, Electrónica y Sistemas}}\\
+      {\tiny\textcolor{pnInkSoft}{Escuela Profesional de Ingeniería de Sistemas}}
+    \end{minipage}\hfill
+    \begin{minipage}{0.2\textwidth}
+      \raggedleft
+      \IfFileExists{../assets/logos/logo_episi.png}{%
+        \includegraphics[height=1.9cm]{../assets/logos/logo_episi.png}}{}
+    \end{minipage}
+
+    \vspace{0.4em}
+    \textcolor{pnBrand}{\rule{0.9\textwidth}{1.2pt}}
+    \vspace{0.8em}
+
+    {\LARGE\bfseries\textcolor{pnAccent}{Riesgo agroclimático por heladas}}\\[0.3em]
+    {\LARGE\bfseries\textcolor{pnAccent}{en la región Puno}}\\[0.7em]
+    {\small\textcolor{pnInkSoft}{Dashboard interactivo para el análisis y la visualización de datos\\
+    orientado a la toma de decisiones}}
+
+    \vspace{0.9em}
+    \colorbox{pnAccentSoft}{\parbox{0.82\textwidth}{\centering\footnotesize
+      \textbf{Curso:} Visualización de Datos \quad\textbf{Código:} SIS328 \quad\textbf{Ciclo:} X\\[0.25em]
+      \textbf{Docente:} Ing. Edwin Edgar Mestas Yucra \quad \textbf{Semestre:} 2026-I\\[0.4em]
+      \textbf{Integrantes:} Jhon Marco Aracayo Mamani · Juan Diego Canaza Paucara\\
+      Angie Tatiana Luque Pacheco
+    }}
+
+    \vspace{0.5em}
+    \textcolor{pnBrand}{\rule{0.9\textwidth}{1.2pt}}\\[0.3em]
+    {\scriptsize\textcolor{pnInkSoft}{Puno — Perú · 2026}}
+  \end{center}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{Recorrido de la exposición}
+  \ponente{Juan Diego Canaza Paucara}
+  \small
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{enumerate}\itemsep0.35em
+        \item El problema y por qué importa
+        \item Preguntas de análisis
+        \item El conjunto de datos y su procedencia
+        \item Limpieza, transformación e integración
+      \end{enumerate}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{enumerate}\itemsep0.35em
+        \setcounter{enumi}{4}
+        \item Arquitectura y diseño del dashboard
+        \item Demostración en vivo
+        \item Resultados y hallazgos
+        \item Conclusiones, límites y decisiones
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.9em}
+  \begin{block}{Tesis del trabajo}
+    \small El riesgo por heladas en Puno \textbf{no es homogéneo}: se concentra en una ventana
+    estacional estrecha y en un subconjunto identificable de provincias. Esa heterogeneidad es
+    medible, y por tanto puede orientar decisiones de política agraria.
+  \end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{1. El problema}
+  \ponente{Juan Diego Canaza Paucara}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      Las heladas son el \textbf{principal peligro agroclimático del altiplano peruano}:
+      \begin{itemize}\itemsep0.3em
+        \item Reducen el rendimiento de cultivos altoandinos (papa, quinua, cañihua).
+        \item Comprometen la seguridad alimentaria de las familias productoras.
+        \item Afectan la sanidad y la productividad del ganado.
+      \end{itemize}
+
+      \vspace{0.6em}
+      \alert{El vacío que atacamos:} existen registros climáticos diarios de acceso abierto, pero
+      están dispersos, en formatos poco amigables y \textbf{sin instrumentos de exploración} que
+      permitan responder \emph{cuándo}, \emph{dónde} y \emph{con qué intensidad} se concentra el riesgo.
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \begin{block}{Pregunta de investigación}
+        \small ¿Cómo se distribuyen en el tiempo y en el territorio la frecuencia y la intensidad de
+        las heladas en las trece provincias de Puno, y qué factores climáticos las explican?
+      \end{block}
+      \vspace{0.3em}
+      \begin{block}{Producto}
+        \small Un dashboard que transforma diez años de observaciones diarias en indicadores,
+        visualizaciones y hallazgos accionables.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{2. Las seis preguntas de análisis}
+  \ponente{Juan Diego Canaza Paucara}
+  \footnotesize
+  \begin{tabular}{@{}p{0.9cm}p{7.0cm}p{4.4cm}@{}}
+    \toprule
+    \textbf{Cód.} & \textbf{Pregunta} & \textbf{Cómo se responde} \\
+    \midrule
+    P1 & Situación general del riesgo en 2015–2024 & KPI y resumen ejecutivo \\
+    P2 & Distribución entre provincias y a lo largo del año & Barras, histograma, caja, calendario \\
+    P3 & Evolución y existencia de tendencia significativa & OLS + Mann-Kendall y pendiente de Sen \\
+    P4 & Provincias de mayor y menor riesgo & Ranking, mapa interactivo, alertas \\
+    P5 & Relación entre altitud, humedad, nubosidad y temperatura & Correlación, dispersión, VIF \\
+    P6 & Zonas homogéneas, factores latentes y días atípicos & PCA, K-Means, jerárquico, anomalías, RF \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.9em}
+  \begin{block}{Criterio de diseño}
+    \small Cada visualización del dashboard responde a una de estas preguntas. \textbf{Ningún gráfico
+    se incluyó por cumplir un mínimo}: si no contestaba una pregunta, no entró.
+  \end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{3. El conjunto de datos y su procedencia}
+  \ponente{Juan Diego Canaza Paucara}
+  \scriptsize
+  \begin{tabular}{@{}p{2.2cm}p{5.1cm}p{5.1cm}@{}}
+    \toprule
+     & \textbf{Fuente primaria} & \textbf{Fuente secundaria} \\
+    \midrule
+    Producto      & ERA5-Land / ERA5 (\emph{era5\_seamless}) & MERRA-2 (NASA POWER) \\
+    Institución   & ECMWF — Copernicus (C3S) & NASA Langley Research Center \\
+    Resolución    & \textbf{0,1° $\approx$ 9 km} & 0,5° $\times$ 0,625° $\approx$ 55 km \\
+    Uso           & Alimenta todo el dashboard & Sólo validación cruzada \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.8em}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Estructura del dataset}
+      \begin{itemize}\itemsep0.2em
+        \item \textbf{47\,489} registros (3\,653 días $\times$ 13 provincias)
+        \item \textbf{52} variables: 31 numéricas, 20 categóricas
+        \item Variable temporal (diaria) y geográfica (lat/lon/altitud)
+        \item Sin datos personales ni sensibles
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{block}{Por qué descartamos la malla gruesa}
+        \scriptsize Con MERRA-2, \textbf{Chucuito, El Collao y Yunguyo caían en la misma celda} y
+        recibían series \emph{idénticas}; además asignaba 3\,668 msnm a Sandia, cuya capital está a
+        2\,170 msnm. Cualquier ranking provincial habría sido un artefacto de la malla.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{4. Limpieza, transformación e integración}
+  \ponente{Juan Diego Canaza Paucara}
+  \scriptsize
+  Pipeline auditable de \textbf{13 etapas}; cada una registra qué hizo y a cuántos registros afectó.
+  \vspace{0.4em}
+
+  \begin{columns}[T]
+    \begin{column}{0.49\textwidth}
+      \begin{enumerate}\itemsep0.08em
+        \item Normalización del esquema (19 variables)
+        \item Fecha ISO $\rightarrow$ tipo temporal
+        \item \alert{Homogeneización de unidades} (km/h$\rightarrow$m/s, hPa$\rightarrow$kPa, s$\rightarrow$h)
+        \item Centinelas de ausencia $\rightarrow$ nulos
+        \item Validación de rangos físicos
+        \item Coherencia térmica (mín $\leq$ media $\leq$ máx)
+        \item Marcado de precipitación implausible
+      \end{enumerate}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{enumerate}\itemsep0.08em
+        \setcounter{enumi}{7}
+        \item Unicidad de la clave (provincia, fecha)
+        \item Reindexado del calendario completo
+        \item Imputación temporal por provincia
+        \item \alert{Integración de la fuente secundaria}
+        \item 23 variables derivadas
+        \item Tipado eficiente (6,8 MB en memoria)
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.5em}
+  \begin{block}{Un hallazgo del propio proceso de limpieza}
+    \scriptsize Un umbral mal calibrado en la radiación solar (MJ/m²/día, no kWh/m²/día) habría anulado
+    \textbf{46\,564 observaciones} que la imputación después rellenaría por interpolación,
+    corrompiendo el análisis multivariante \emph{sin dejar rastro visible}. Verificar las unidades
+    reales del servicio —y no las que sugiere el nombre del parámetro— fue decisivo.
+  \end{block}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{5. Arquitectura del software}
+  \ponente{Angie Tatiana Luque Pacheco}
+  \scriptsize
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \textbf{Separación estricta por capas}
+      \begin{itemize}\itemsep0.25em
+        \item \texttt{config/} — única fuente de verdad: rutas, metadatos, dominio, identidad visual.
+        \item \texttt{utils/} — lógica de dominio. \alert{No importa Streamlit}: se reutiliza desde el
+              cuaderno, los scripts y las pruebas.
+        \item \texttt{components/} — componentes visuales reutilizables.
+        \item \texttt{pages/} — sólo orquestan componentes; sin HTML ni reglas de estilo.
+        \item \texttt{scripts/} — flujo reproducible 01$\rightarrow$04.
+      \end{itemize}
+      \vspace{0.4em}
+      PEP 8, \emph{type hints} y docstrings estilo Google en todo el código.
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \begin{block}{Decisiones de UX/UI}
+        \scriptsize
+        \textbf{Color en dos niveles.} La identidad es pastel, pero un pastel puro no sostiene la
+        identidad de serie en un gráfico. Por eso:
+        \begin{itemize}\itemsep0.1em
+          \item \textbf{Superficie} (fondos, tarjetas, insignias): pastel.
+          \item \textbf{Tinta de datos}: mismos tonos, pasos verificados.
+        \end{itemize}
+        \vspace{0.3em}
+        Ninguna paleta se eligió a ojo: se obtuvieron por \textbf{optimización con restricciones} en el
+        espacio OKLCH —minimizando saturación sujeto a superar las pruebas de contraste y de
+        separación cromática bajo protanopía y deuteranopía—.
+        \vspace{0.25em}
+        Tope estructural de \textbf{4 series} en dispersión y mapas: más allá, la distinción no está
+        garantizada.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{6. Demostración en vivo}
+  \ponente{Angie Tatiana Luque Pacheco}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Recorrido previsto}
+      \begin{enumerate}\itemsep0.3em
+        \item \textbf{Vista general} — KPI, resumen ejecutivo y hallazgos automáticos.
+        \item \textbf{Análisis descriptivo} — distribuciones, comparaciones, tendencia y ranking.
+        \item \textbf{Multidimensional} — correlaciones, PCA, agrupamiento, anomalías, Random Forest.
+        \item \textbf{Geográfico} — mapa interactivo y efecto del lago Titicaca.
+        \item \textbf{Conclusiones} y \textbf{Metodología}.
+      \end{enumerate}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Qué mostrar del comportamiento interactivo}
+        \scriptsize
+        \begin{itemize}\itemsep0.15em
+          \item Mover un filtro y ver que \textbf{todos} los indicadores, gráficos e
+                interpretaciones se recalculan.
+          \item Cambiar el umbral de helada (0 °C $\leftrightarrow$ 3 °C) y observar el cambio de escala del fenómeno.
+          \item Navegar entre páginas y comprobar que \textbf{la selección persiste}
+                (filtrado cruzado real).
+          \item Descargar los datos filtrados en CSV y el libro Excel multi-hoja.
+        \end{itemize}
+      \end{block}
+      \vspace{0.2em}
+      {\scriptsize\textcolor{pnInkSoft}{8 filtros interactivos · 30+ visualizaciones · 5 páginas}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{7. Resultados — la situación general (P1)}
+  \ponente{Angie Tatiana Luque Pacheco}
+  \begin{center}
+    \cifra{16,0\,\%}{de los días con helada\\meteorológica (Tmín $\leq$ 0 °C)}\hfill
+    \cifra{39,8\,\%}{con helada agronómica\\(Tmín $\leq$ 3 °C)}\hfill
+    \cifra{47\,489}{observaciones diarias\\analizadas}
+  \end{center}
+  \vspace{0.6em}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Composición por severidad}
+      \scriptsize
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        Intensidad & Eventos \\
+        \midrule
+        Ligera (0 a $-2$ °C)     & 5\,180 \\
+        Moderada ($-2$ a $-4$ °C)  & 2\,090 \\
+        Severa ($-4$ a $-6$ °C)    & 320 \\
+        Extrema ($< -6$ °C)      & 30 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Lectura}
+        \scriptsize La brecha entre el umbral meteorológico y el agronómico —16\,\% frente a
+        39,8\,\%— es el hallazgo de partida: \textbf{el daño potencial al cultivo afecta a más del
+        doble de días} que el fenómeno físico estricto. Planificar sobre el umbral de 0 °C
+        subestimaría el riesgo agrícola real por un factor de 2,5.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{7. Resultados — desigualdad territorial (P2, P4)}
+  \ponente{Angie Tatiana Luque Pacheco}
+  \scriptsize
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Días con helada, 2015–2024}
+      \begin{tabular}{@{}lrr@{}}
+        \toprule
+        Provincia & Días & Altitud \\
+        \midrule
+        Carabaya (Macusani)   & 1\,126 & 4\,321 \\
+        S. A. de Putina       & 976    & 3\,867 \\
+        El Collao (Ilave)     & 962    & 3\,835 \\
+        San Román (Juliaca)   & 930    & 3\,828 \\
+        Azángaro              & 830    & 3\,861 \\
+        Lampa                 & 799    & 3\,868 \\
+        Puno                  & 683    & 3\,819 \\
+        \midrule
+        Moho                  & 83     & 4\,043 \\
+        \textbf{Yunguyo}      & \textbf{0} & 3\,825 \\
+        \textbf{Sandia}       & \textbf{0} & 2\,294 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{block}{Hallazgo central}
+        \scriptsize La región \textbf{no es una unidad homogénea de riesgo}. Entre Carabaya y Yunguyo
+        la diferencia es total: 1\,126 días frente a ninguno.
+      \end{block}
+      \vspace{0.3em}
+      \begin{block}{Y la altitud no lo explica todo}
+        \scriptsize Yunguyo (3\,825 msnm) y San Román (3\,828 msnm) están \emph{a la misma cota} y
+        registran 0 y 930 días respectivamente. La diferencia es la \textbf{inercia térmica del lago
+        Titicaca}, que atenúa el enfriamiento nocturno en las provincias circunlacustres.
+        \vspace{0.2em}
+
+        \alert{Consecuencia práctica:} zonificar sólo por altitud sería un error de diseño de política.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{7. Resultados — tendencia y técnicas avanzadas (P3, P5, P6)}
+  \ponente{Jhon Marco Aracayo Mamani}
+  \scriptsize
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Tendencia interanual (P3)} — se aplican \emph{dos} métodos, no uno:
+      \begin{itemize}\itemsep0.15em
+        \item \textbf{OLS}: óptimo con residuos normales, sensible a atípicos.
+        \item \textbf{Mann-Kendall + pendiente de Sen}: no paramétrico, resistente.
+      \end{itemize}
+      \vspace{0.25em}
+      Reportar ambos es lo honesto: si coinciden, la conclusión es robusta; si discrepan,
+      \textbf{la discrepancia es el hallazgo} y se declara en lugar de elegir el método más favorable.
+
+      \vspace{0.6em}
+      \textbf{Validación cruzada entre fuentes}
+      \begin{itemize}\itemsep0.15em
+        \item $r = 0{,}611$ ; sesgo medio $+1{,}29$ °C
+        \item Concordancia en la clasificación de helada: \textbf{83,1\,\%}
+        \item La correlación moderada es \emph{coherente} con la diferencia de resolución
+              (9 km frente a 55 km), no un error.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Técnicas avanzadas aplicadas (P5, P6)}
+      \begin{itemize}\itemsep0.12em
+        \item \textbf{PCA} — factores latentes del sistema; \emph{scree}, cargas, biplot y 3D.
+        \item \textbf{K-Means} — zonificación agroclimática; $k$ por codo y silueta.
+        \item \textbf{Jerárquico (Ward)} — dendrograma de las 13 provincias.
+        \item \textbf{Isolation Forest} — días atípicos \emph{multivariantes}.
+        \item \textbf{Z modificada (MAD)} — extremos robustos a contaminación.
+        \item \textbf{Random Forest} — importancia por permutación, ROC y PR.
+        \item \textbf{Correlación} Pearson/Spearman con valores $p$ y VIF.
+        \item \textbf{Mapa geográfico interactivo}.
+      \end{itemize}
+      \vspace{0.3em}
+      {\tiny\textcolor{pnInkSoft}{Partición cronológica, no aleatoria: con series autocorrelacionadas,
+      una partición aleatoria filtraría información y inflaría las métricas.}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{8. Conclusiones}
+  \ponente{Jhon Marco Aracayo Mamani}
+  \small
+  \begin{enumerate}\itemsep0.35em
+    \item El riesgo por heladas en Puno es \textbf{estructuralmente heterogéneo}: la brecha entre la
+          provincia más y la menos expuesta abarca todo el rango posible.
+    \item El umbral agronómico (3 °C) multiplica por \textbf{2,5} los días de riesgo respecto al
+          meteorológico: la cifra relevante para el agro no es la del fenómeno físico.
+    \item La \textbf{altitud es el primer factor pero no el único}: el efecto termorregulador del
+          lago Titicaca domina en las provincias circunlacustres.
+    \item El fenómeno se concentra en una \textbf{ventana estacional estrecha}, coincidente con la
+          estación seca y el cielo despejado que permite la pérdida radiativa nocturna.
+    \item Las técnicas multivariantes muestran que el sistema está gobernado por \textbf{pocos
+          factores latentes} (un eje térmico y otro de humedad), lo que abarata el monitoreo.
+    \item Dos reanálisis independientes \textbf{coinciden en el 83,1\,\%} de la clasificación de
+          helada: la señal no es un artefacto de un producto concreto.
+    \item El proyecto entrega un \textbf{instrumento reproducible} (semilla fija, pipeline
+          auditable de 13 etapas, pruebas automatizadas), no sólo un conjunto de gráficos.
+  \end{enumerate}
+\end{frame}
+
+% =====================================================================
+\begin{frame}{8. Recomendaciones y limitaciones}
+  \ponente{Jhon Marco Aracayo Mamani}
+  \scriptsize
+  \begin{columns}[T]
+    \begin{column}{0.49\textwidth}
+      \textbf{Decisiones que habilitan los datos}
+      \begin{itemize}\itemsep0.18em
+        \item \textbf{Gobierno regional:} focalizar el seguro agrario y la inversión en protección en
+              las provincias del extremo superior del ranking, donde el beneficio marginal por unidad
+              invertida es mayor.
+        \item \textbf{Dir. Reg. de Agricultura:} calendarios de siembra diferenciados \emph{por
+              provincia}, no regionales; alerta temprana basada en nubosidad y humedad, observables
+              con antelación.
+        \item \textbf{Productores:} priorizar variedades tolerantes al frío en la franja
+              altitudinal crítica; concentrar medidas en la ventana estacional identificada.
+        \item \textbf{Academia:} densificar la red de estaciones donde el reanálisis muestra mayor
+              incertidumbre entre fuentes.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \textbf{Límites que declaramos}
+      \begin{itemize}\itemsep0.18em
+        \item Malla de $\approx 9$ km: \textbf{suaviza extremos locales} y no resuelve fondos de valle.
+        \item Reanálisis, \textbf{no estación de superficie}.
+        \item \textbf{Diez años} caracterizan la variabilidad interanual, pero la OMM exige 30 para
+              normales climáticas: \emph{no atribuimos cambio climático}.
+        \item Una sola capital \textbf{representa} cada provincia.
+        \item Sin datos de rendimiento agrícola: no cuantificamos el daño económico.
+        \item El índice de riesgo tiene \textbf{pesos fijados por criterio experto}, no calibrados
+              contra daño observado.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\begin{frame}[plain]
+  \vfill
+  \begin{center}
+    {\LARGE\bfseries\textcolor{pnAccent}{Gracias por su atención}}\\[0.9em]
+    {\small\textcolor{pnInkSoft}{Quedamos atentos a sus preguntas}}\\[1.4em]
+
+    \colorbox{pnBrandSoft}{\parbox{0.80\textwidth}{\centering\footnotesize
+      \textbf{Riesgo agroclimático por heladas en la región Puno}\\[0.3em]
+      Jhon Marco Aracayo Mamani · Juan Diego Canaza Paucara · Angie Tatiana Luque Pacheco\\[0.4em]
+      {\scriptsize Visualización de Datos (SIS328) · E.P. Ingeniería de Sistemas\\
+      Universidad Nacional del Altiplano · Puno — Perú · 2026}
+    }}
+
+    \vspace{1.0em}
+    {\tiny\textcolor{pnInkSoft}{Datos: ERA5-Land / ERA5 — Copernicus Climate Change Service (ECMWF),
+    vía Open-Meteo\\
+    Validación: MERRA-2 — NASA Langley Research Center (POWER Project)}}
+  \end{center}
+  \vfill
+\end{frame}
+
+\end{document}

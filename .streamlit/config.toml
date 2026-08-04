@@ -1,0 +1,34 @@
+# Configuración de Streamlit del proyecto.
+#
+# El tema se fija explícitamente en claro. La identidad visual del dashboard
+# es pastel sobre superficies claras y con mucho espacio en blanco: es un
+# compromiso deliberado con un único aspecto, no un descuido. Los pasos de la
+# paleta se verificaron contra la superficie blanca, y una inversión automática
+# a oscuro invalidaría esa verificación de contraste.
+
+[theme]
+base = "light"
+primaryColor = "#DB8963"            # naranja pastel — color principal
+backgroundColor = "#F7F8FA"         # plano de página, gris azulado muy claro
+secondaryBackgroundColor = "#FFFFFF"  # superficie de tarjetas
+textColor = "#111827"               # tinta primaria, 17,7:1 sobre blanco
+font = "sans-serif"
+
+[server]
+headless = true
+enableStaticServing = true
+maxUploadSize = 20
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = true
+
+[runner]
+magicEnabled = true
+fastReruns = true
+
+[logger]
+level = "warning"
